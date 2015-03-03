@@ -1,0 +1,93 @@
+ul.projects {
+  @include span-columns(2);
+
+   li {
+    margin: 5px 5px 5px 0;
+    padding: 3px;
+
+    &:before {
+      display: inline-block;
+      font-family: FontAwesome;
+      margin-right: 10px;
+      content: "\f0c9"
+    }
+
+    &.active {
+      background-color: $medium-gray;
+      @include border-bottom-radius(5px);
+      @include border-top-radius(5px);
+    }
+  }
+}
+
+.current-project {
+  @include span-columns(10);
+
+  .header {
+
+  }
+
+  .actions {
+    padding-left: 20px;
+  }
+}
+
+.project {
+  @include row();
+  margin-top: 5px;
+  @include padding(15px);
+  background-color: $light-gray;
+  @include border-bottom-radius(5px);
+  @include border-top-radius(5px);
+
+  &.completed {
+    background-color: $medium-gray;
+
+    #{$all-text-inputs}, textarea {
+      background-color: $dark-gray;
+    }
+  }
+}
+
+.project-status {
+  @include span-columns(1);
+
+  input[type="checkbox"] {
+    display: none;
+
+    + label:before {
+      display: inline-block;
+      content: "\f10c";
+      font-family: FontAwesome;
+      font-size: 350%;
+      color: $dark-gray;
+    }
+
+    &:checked + label:before {
+      content: "\f05d";
+    }
+  }
+}
+
+.project-info {
+  @include span-columns(11);
+}
+
+.project-atts {
+  @include row();
+
+  #{$all-text-inputs}, .selectize-control {
+    @include span-columns(3);
+
+  }
+
+  > input:last-child {
+    float: right;
+  }
+
+  .edit-notes {
+    @include span-columns(1);
+    text-align: bottom;
+    color: $dark-gray;
+  }
+}

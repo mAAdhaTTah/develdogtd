@@ -1,0 +1,8 @@
+@import "navigation";
+@import "toolbar";
+@import "actions";
+@import "projects";
+
+.app {
+  @include outer-container();
+}

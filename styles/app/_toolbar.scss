@@ -1,0 +1,30 @@
+.toolbar {
+  @include row();
+
+  h1 {
+    float: left;
+  }
+
+  .tool:before {
+    display: inline-block;
+    font-family: FontAwesome;
+    margin-right: 10px;
+    font-size: 150%;
+  }
+
+  #add-action {
+    float: right;
+
+    &:before {
+      content: "\f067";
+    }
+  }
+
+  #refresh {
+    float: right;
+
+    &:before {
+      content: "\f021";
+    }
+  }
+}
