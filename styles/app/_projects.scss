@@ -1,5 +1,9 @@
 ul.projects {
-  @include span-columns(2);
+  background-color: $dark-gray;
+  padding: 0.5rem;
+  @include span-columns(3);
+  @include border-bottom-radius(5px);
+  @include border-top-radius(5px);
 
    li {
     margin: 5px 5px 5px 0;
@@ -9,19 +13,28 @@ ul.projects {
       display: inline-block;
       font-family: FontAwesome;
       margin-right: 10px;
-      content: "\f0c9"
+      content: "\f0c9";
+      color: $light-gray;
     }
 
     &.active {
       background-color: $medium-gray;
       @include border-bottom-radius(5px);
       @include border-top-radius(5px);
+
+      a {
+        color: $dark-gray;
+      }
+
+      &:before {
+        color: $dark-gray;
+      }
     }
   }
 }
 
 .current-project {
-  @include span-columns(10);
+  @include span-columns(9);
 
   .header {
 
