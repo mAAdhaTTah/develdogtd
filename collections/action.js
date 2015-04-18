@@ -25,6 +25,9 @@ module.exports = Backbone.Collection.extend({
   viewByProject: function(model) {
     var view = this.newView();
 
+    view.filter = function(child, index, collection) {
+      return !child.get('completed') && child.get('project_id') === model.id;
+    };
 
     return view;
   },
