@@ -6,15 +6,11 @@ module.exports = Backbone.Collection.extend({
   url: '/api/v1/actions',
 
   initialize: function() {
-    actionChannel.reply('model:byId', this.modelById, this);
+    actionChannel.reply('model:byId', this.get, this);
     actionChannel.reply('view:inbox', this.viewInbox, this);
     actionChannel.reply('view:byProject', this.viewByProject, this);
 
     actionChannel.comply('add', this.addAction, this);
-  },
-
-  modelById: function(id) {
-    return this.findWhere({ id: id });
   },
 
   viewInbox: function() {

@@ -8,7 +8,7 @@ module.exports = Backbone.Collection.extend({
   initialize: function() {
     projectChannel.reply('list', this.listProjects, this);
     projectChannel.reply('view:projects', this.getView, this);
-    projectChannel.reply('model:byId', this.modelById, this);
+    projectChannel.reply('model:byId', this.get, this);
     projectChannel.comply('add', this.addProject, this);
   },
 
@@ -24,10 +24,6 @@ module.exports = Backbone.Collection.extend({
     }
 
     return view;
-  },
-
-  modelById: function(id) {
-    return this.get(id);
   },
 
   addProject: function(project) {
