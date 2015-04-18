@@ -33,7 +33,7 @@ node_modules
 npm-debug.log
 
 # Build dir
-dist/
+public/
 
 # Session Files
 sessions
