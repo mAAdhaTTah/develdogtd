@@ -12,7 +12,7 @@ module.exports = Marionette.ItemView.extend({
     'click .edit-notes': 'toggleNotes',
     'keyup input[name="action-name"]': 'updateName',
     'keyup textarea#action-notes': 'updateNotes',
-    'click .action-completed': 'updateCompleted',
+    'click .action-completed': 'updateCompleted'
   },
 
   onRender: function() {
@@ -44,7 +44,7 @@ module.exports = Marionette.ItemView.extend({
           type: 'POST',
           data: {
             name: input
-          },
+          }
         }).done(function(response) {
           projectChannel.command('add', response);
           cb(response);
@@ -52,6 +52,7 @@ module.exports = Marionette.ItemView.extend({
           cb();
         });
       },
+
       maxItems: 1,
       item: [this.model.get('project_id')],
       options: projectChannel.request('list'),
@@ -71,7 +72,7 @@ module.exports = Marionette.ItemView.extend({
     this.model.get('completed') ? this.$el.addClass('completed') : this.$el.removeClass('completed');
   },
 
-  handleErrors: function (err) {
+  handleErrors: function(err) {
     var error = err.validationError;
     this.errorMsgs = [];
 
@@ -84,24 +85,24 @@ module.exports = Marionette.ItemView.extend({
     var n = noty({
       text: msg,
       animation: {
-        open: {height: 'toggle'}, // jQuery animate function property object
-        close: {height: 'toggle'}, // jQuery animate function property object
-        easing: 'swing', // easing
-        speed: 500 // opening & closing animation speed
+        open: {height: 'toggle'},
+        close: {height: 'toggle'},
+        easing: 'swing',
+        speed: 500
       },
       type: 'error',
-      timeout: 3000,
+      timeout: 3000
     });
 
     this.errorMsgs.push(n);
   },
 
   maybeDestroy: function(project_id, context_id) {
-    if(this.model.get('completed')) {
+    if (this.model.get('completed')) {
       return this.destroy();
     }
 
-    if(project_id === this.model.get('project_id')) {
+    if (project_id === this.model.get('project_id')) {
       return this.destroy();
     }
 

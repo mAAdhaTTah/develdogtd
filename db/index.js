@@ -4,19 +4,19 @@ module.exports = function() {
   return {
     q: Task.forge(),
 
-    action: function(user_id) {
+    action: function(userId) {
       this.q.set({
         type: 'action',
-        user_id: user_id
+        user_id: userId
       });
 
       return this;
     },
 
-    project: function(user_id) {
+    project: function(userId) {
       this.q.set({
         type: 'project',
-        user_id: user_id
+        user_id: userId
       });
 
       return this;
