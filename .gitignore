@@ -37,3 +37,4 @@ public/
 
 # Session Files
 sessions
+.env
