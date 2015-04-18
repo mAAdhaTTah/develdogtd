@@ -38,7 +38,25 @@ module.exports = Backbone.Collection.extend({
     });
   },
 
-  addAction: function(action) {
-    return action ? this.add(action) : this.add({});
+  addAction: function() {
+    var action = {};
+    var routeParts = Backbone.history.getFragment().split('/');
+
+    // if the route hash has a base + an id
+    // there we're going to parse the base
+    // to figure out which type and id to
+    // add the action to
+    //
+    // @todo this seems... not great; got a better idea?
+    // we're assuming all our routes are pural/end in 's'
+    // controller or app state state?
+    if (routeParts.length > 1) {
+      var base = routeParts[0];
+      var id = routeParts[1];
+
+      action[base.slice(0, -1) + '_id'] = parseInt(id);
+    }
+
+    this.add(action);
   }
 });
