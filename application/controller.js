@@ -26,7 +26,9 @@ module.exports = Marionette.Object.extend({
 
     this.view.main.show(view);
 
-    view.setActive(projectId);
+    if (projectId) {
+      view.setActive(projectId);
+    }
   },
 
   goto: function(route) {
