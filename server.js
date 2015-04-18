@@ -10,6 +10,7 @@ var session = require('express-session');
 var passport = require('./common/passport');
 var FileStore = require('session-file-store')(session);
 var config = require('./config');
+var debug = require('debug')('develdogtd:server');
 
 var app = express();
 
@@ -56,8 +57,9 @@ app.use('/api', require('./routes/api'));
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
+    debug(err);
     res.status(err.status || 500);
-    res.render('error', {
+    res.json({
       message: err.message,
       error: err
     });
@@ -67,8 +69,9 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  debug(err);
   res.status(err.status || 500);
-  res.render('error', {
+  res.json({
     message: err.message,
     error: {}
   });
