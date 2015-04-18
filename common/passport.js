@@ -22,7 +22,7 @@ passport.deserializeUser(function(id, done) {
       require: true
     }).then(function(model) {
       done(null, model);
-    }).catch(function(err){
+    }).catch(function(err) {
       done(err, null);
     });
 });
@@ -34,16 +34,13 @@ function verify(accessToken, refreshToken, profile, done) {
       githubId: profile.id
     }).fetch({ require: true })
     .then(function(model) {
-      return model.set({github: profile._json}).save();
-    }).then(function(model) {
       return done(null, model);
     }).catch(function(err) {
       // failed to find the user profile
       // so create a new one
-      var email = profile.emails.shift().value;
       return User.forge({
         githubId: profile.id,
-        email: email,
+        email: profile.emails.shift().value,
         display: profile.displayName,
         github: profile._json
       }).save().then(function(model, err) {
