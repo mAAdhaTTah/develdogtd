@@ -1,30 +1,14 @@
-var globalChannel = require('../channels/global');
+var Controller = require('./controller');
 
 module.exports = Marionette.AppRouter.extend({
-  routes: {
-    "": "redirectTo",
-    "inbox": "inbox",
-    "projects": "projects"
+  appRoutes: {
+    '': 'redirectTo',
+    'inbox': 'inbox',
+    'projects': 'projects',
+    'projects/:projectId': 'projects'
   },
 
-  redirectTo: function() {
-    this.goto('inbox');
-  },
-
-  onRoute: function(name, path, args) {
-    // @todo move commands here
-  },
-
-  inbox: function() {
-    globalChannel.command('route', 'inbox');
-  },
-
-  projects: function() {
-    globalChannel.command('route', 'projects');
-  },
-
-  goto: function(route) {
-    this.navigate(route);
-    this[route]();
+  initialize: function() {
+    this.controller = new Controller({ router: this });
   }
 });

@@ -29,21 +29,11 @@ module.exports = Marionette.LayoutView.extend({
     globalChannel.command('refresh');
   },
 
-  route: function(route) {
-    if(this.$active) {
+  setActive: function(perspective) {
+    if (this.$active) {
       this.$active.removeClass('active');
     }
 
-    this.$active = this.$nav.find('#' + route).addClass('active');
-
-    this[route]();
-  },
-
-  inbox: function() {
-    this.main.show(actionChannel.request('view:inbox'));
-  },
-
-  projects: function() {
-    this.main.show(projectChannel.request('view:projects'));
+    this.$active = this.$nav.find('#' + perspective).addClass('active');
   }
 });

@@ -6,24 +6,25 @@ module.exports = Backbone.Collection.extend({
   url: '/api/v1/actions',
 
   initialize: function() {
+    actionChannel.reply('model:byId', this.modelById, this);
+    actionChannel.reply('view:inbox', this.viewInbox, this);
+    actionChannel.reply('view:byProject', this.viewByProject, this);
+
     actionChannel.comply('add', this.addAction, this);
-    actionChannel.reply('view:inbox', this.getInbox, this);
-    actionChannel.reply('view:byProject', this.getByProject, this);
   },
 
-  addAction: function(action) {
-    return action ? this.add(action) : this.add({});
+  modelById: function(id) {
+    return this.findWhere({ id: id });
   },
 
-  getInbox: function() {
+  viewInbox: function() {
     // @todo filter by project + context
     return this.newView();
   },
 
-  getByProject: function(model) {
+  viewByProject: function(model) {
     var view = this.newView();
 
-    view.project_id = model.get('id');
 
     return view;
   },
@@ -32,5 +33,9 @@ module.exports = Backbone.Collection.extend({
     return new CollectionView({
       collection: this
     });
+  },
+
+  addAction: function(action) {
+    return action ? this.add(action) : this.add({});
   }
 });

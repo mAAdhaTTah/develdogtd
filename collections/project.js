@@ -6,20 +6,31 @@ module.exports = Backbone.Collection.extend({
   url: '/api/v1/projects',
 
   initialize: function() {
-    projectChannel.comply('add', this.addProject, this);
     projectChannel.reply('list', this.listProjects, this);
-    projectChannel.reply('view:projects', this.getProjects, this);
-  },
-
-  addProject: function(project) {
-    return project ? this.add(project) : this.add({});
+    projectChannel.reply('view:projects', this.getView, this);
+    projectChannel.reply('model:byId', this.modelById, this);
+    projectChannel.comply('add', this.addProject, this);
   },
 
   listProjects: function() {
     return this.toJSON();
   },
 
-  getProjects: function() {
-    return new CollectionView({ collection: this });
+  getView: function(id) {
+    var view = new CollectionView({ collection: this });
+
+    if (id) {
+      view.setActive(id);
+    }
+
+    return view;
+  },
+
+  modelById: function(id) {
+    return this.get(id);
+  },
+
+  addProject: function(project) {
+    return project ? this.add(project) : this.add({});
   }
 });
