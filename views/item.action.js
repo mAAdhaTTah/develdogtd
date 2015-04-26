@@ -69,7 +69,9 @@ module.exports = Marionette.ItemView.extend({
       onChangeDateTime: _.bind(this.updateDue, this)
     });
 
-    this.$due.val(moment(this.model.get('due')).format(time.client));
+    if(this.model.get('due')) {
+      this.$due.val(moment(this.model.get('due')).format(time.client));
+    }
   },
 
   attachListeners: function() {
