@@ -1,6 +1,7 @@
 .action {
   @include row();
   margin-top: 5px;
+  margin-right: 20px;
   @include padding(15px);
   @include border-bottom-radius(5px);
   @include border-top-radius(5px);
@@ -16,6 +17,21 @@
   &.overdue {
     font-style: italic;
     border: 1px solid $red;
+  }
+}
+
+.action-delete{
+  position: relative;
+
+  .button{
+    position: absolute;
+    right: -20px;
+
+    &:before {
+      content: "\f00d";
+      font-family: FontAwesome;
+      font-style: normal;
+    }
   }
 }
 

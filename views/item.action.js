@@ -14,7 +14,8 @@ module.exports = Marionette.ItemView.extend({
     'click .edit-notes': 'toggleNotes',
     'keyup input[name="action-name"]': 'updateName',
     'keyup textarea#action-notes': 'updateNotes',
-    'click .action-completed': 'updateCompleted'
+    'click .action-completed': 'updateCompleted',
+    'click .action-delete': 'deleteAction'
   },
 
   onRender: function() {
@@ -173,6 +174,10 @@ module.exports = Marionette.ItemView.extend({
     // please remove this when we DRY up these methods
     this.model.set('completed', this.$completed.is(':checked'));
     this.saveModel('completed', this.$completed.is(':checked'));
+  },
+
+  deleteAction: function() {
+    this.model.destroy({ wait: true });
   },
 
   saveModel: _.debounce(function(key, value) {
