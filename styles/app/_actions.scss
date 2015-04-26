@@ -2,16 +2,20 @@
   @include row();
   margin-top: 5px;
   @include padding(15px);
+  @include border-bottom-radius(5px);
+  @include border-top-radius(5px);
 
   &.completed {
     background-color: $medium-gray;
-    @include border-bottom-radius(5px);
-    @include border-top-radius(5px);
-
 
     #{$all-text-inputs}, textarea {
       background-color: $light-gray;
     }
+  }
+
+  &.overdue {
+    font-style: italic;
+    border: 1px solid $red;
   }
 }
 
@@ -26,6 +30,7 @@
       content: "\f10c";
       font-family: FontAwesome;
       font-size: 350%;
+      font-style: normal;
     }
 
     &:checked + label:before {

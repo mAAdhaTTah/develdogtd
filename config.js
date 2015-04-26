@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 var config = {
   env: process.env.NODE_ENV || 'development',
   web: {
@@ -10,6 +12,10 @@ var config = {
     password: process.env.DATABASE_PASSWORD || '',
     database: process.env.DATABASE_NAME || 'develdogtd',
     charset  : 'utf8'
+  },
+  time: {
+    server: moment.ISO_8601,
+    client: 'YYYY/MM/DD HH:mm'
   }
 };
 

@@ -1,5 +1,6 @@
 var bookshelf = require('../common/bookshelf');
 var User = require('./user');
+var moment = require('moment');
 var validation = require('./validation').task;
 
 module.exports = bookshelf.model('Task', {
@@ -23,14 +24,12 @@ module.exports = bookshelf.model('Task', {
   },
 
   format: function(attrs) {
-    if(attrs.completed) {
-      attrs.completedAt = new Date();
-    } else if(attrs.completedAt) {
+    if (attrs.completed) {
+      if (!attrs.completedAt) {
+        attrs.completedAt = moment(Date.now()).format();
+      }
+    } else if (attrs.completedAt) {
       attrs.completedAt = null;
-    }
-
-    if(attrs.due === '') {
-      delete attrs.due;
     }
 
     return attrs;

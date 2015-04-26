@@ -1,5 +1,7 @@
 var projectChannel = require('../channels/project');
 var globalChannel = require('../channels/global');
+var moment = require('moment');
+var time = require('../config').time;
 
 module.exports = Marionette.ItemView.extend({
   willRemove: false,
@@ -26,8 +28,9 @@ module.exports = Marionette.ItemView.extend({
 
     // Set the correct class for the state
     this.initSelect();
+    this.initCalendar();
     this.attachListeners();
-    this.toggleCompleted();
+    this.toggleClass();
 
     return this;
   },
@@ -61,15 +64,34 @@ module.exports = Marionette.ItemView.extend({
     });
   },
 
+  initCalendar: function() {
+    this.$due.datetimepicker({
+      onChangeDateTime: _.bind(this.updateDue, this)
+    });
+
+    this.$due.val(moment(this.model.get('due')).format(time.client));
+  },
+
   attachListeners: function() {
     // Bind our events to the model
-    this.listenTo(this.model, 'change:completed', this.toggleCompleted);
+    this.listenTo(this.model, 'change', this.toggleClass);
     this.listenTo(this.model, 'invalid', this.handleErrors);
     this.$project.on('change', _.bind(this.updateProject, this));
   },
 
-  toggleCompleted: function() {
-    this.model.get('completed') ? this.$el.addClass('completed') : this.$el.removeClass('completed');
+  toggleClass: function() {
+    if(this.model.get('completed')) {
+      this.$el.addClass('completed');
+    } else {
+      this.$el.removeClass('completed');
+
+      // mark as overdue if it's not completed and it's after the due date right now
+      if(moment(Date.now()).isAfter(this.model.get('due'))) {
+        this.$el.addClass('overdue');
+      } else {
+       this.$el.removeClass('overdue');
+      }
+    }
   },
 
   handleErrors: function(err) {
@@ -138,7 +160,10 @@ module.exports = Marionette.ItemView.extend({
   },
 
   updateDue: function() {
-    this.saveModel('due', this.$due.val());
+    // this and the next method are required to change the class
+    // before the debounced function waits then first
+    this.model.set('due', moment(this.$due.val(), time.client).format());
+    this.saveModel('due', moment(this.$due.val(), time.client).format());
   },
 
   updateCompleted: function() {
@@ -149,10 +174,8 @@ module.exports = Marionette.ItemView.extend({
   },
 
   saveModel: _.debounce(function(key, value) {
-    this.model.save(key, value, {
-      error: function() {
-        globalChannel.command('error');
-      }
+    this.model.save(key, value).fail(function() {
+      globalChannel.command('error');
     });
   }, 800)
 });
