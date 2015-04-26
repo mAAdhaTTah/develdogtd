@@ -15,6 +15,7 @@ router.get('/', function(req, res) {
   var ddBoot = {};
 
   db().action(req.user.id).remaining().all().then(function(actions) {
+    // @todo this may be prohibitive to do on the server
     ddBoot.actions = _.sortByAll(actions.toJSON(), 'created_at');
 
     return db().project(req.user.id).remaining().all();

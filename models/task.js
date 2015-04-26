@@ -6,7 +6,7 @@ var validation = require('./validation').task;
 module.exports = bookshelf.model('Task', {
   tableName: 'tasks',
   hasTimestamps: true,
-  hidden: ['user_id', 'created_at', 'updated_at'],
+  hidden: ['user_id'],
   defaults: {
     completed: false
   },
