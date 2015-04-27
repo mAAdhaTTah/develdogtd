@@ -1,5 +1,5 @@
 exports.up = function(knex, Promise) {
-  knex.schema.createTable('tasks', function (table) {
+  return knex.schema.createTable('tasks', function (table) {
     table.increments('id').primary();
     table.integer('user_id').references('id').inTable('users');
     table.integer('parent_id').references('id').inTable('tasks').nullable();
@@ -13,11 +13,14 @@ exports.up = function(knex, Promise) {
     table.timestamps();
   }).then(function(){
     Promise.resolve();
+  }).catch(function(err) {
+    console.error(err);
+    Promise.reject();
   });
 };
 
 exports.down = function(knex, Promise) {
-  knex.schema.dropTable('tasks').then(function() {
+  return knex.schema.dropTable('tasks').then(function() {
     Promise.resolve();
   });
 };

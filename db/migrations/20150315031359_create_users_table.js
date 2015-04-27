@@ -1,5 +1,5 @@
 exports.up = function(knex, Promise) {
-  knex.schema.createTable('users', function (table) {
+  return knex.schema.createTable('users', function (table) {
     table.increments('id').primary();
     table.integer('githubId').unique();
     table.string('email');
@@ -8,11 +8,14 @@ exports.up = function(knex, Promise) {
     table.timestamps();
   }).then(function() {
     Promise.resolve();
+  }).catch(function(err) {
+    console.error(err);
+    Promise.reject();
   });
 };
 
 exports.down = function(knex, Promise) {
-  knex.schema.dropTable('users').then(function() {
+  return knex.schema.dropTable('users').then(function() {
     Promise.resolve();
   });
 };
