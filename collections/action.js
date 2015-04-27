@@ -9,6 +9,7 @@ module.exports = Backbone.Collection.extend({
     actionChannel.reply('model:byId', this.get, this);
     actionChannel.reply('view:inbox', this.viewInbox, this);
     actionChannel.reply('view:byProject', this.viewByProject, this);
+    actionChannel.reply('view:byContext', this.viewByContext, this);
 
     actionChannel.comply('add', this.addAction, this);
   },
@@ -23,6 +24,16 @@ module.exports = Backbone.Collection.extend({
 
     view.filter = function(child, index, collection) {
       return !child.get('completed') && child.get('project_id') === model.id;
+    };
+
+    return view;
+  },
+
+  viewByContext: function(model) {
+    var view = this.newView();
+
+    view.filter = function(child, index, collection) {
+      return !child.get('completed') && child.get('context_id') === model.id;
     };
 
     return view;

@@ -12,5 +12,8 @@ module.exports = {
       }
     },
     project_id: 'numeric'
+  }),
+  context: new Checkit({
+    name: 'required'
   })
 };

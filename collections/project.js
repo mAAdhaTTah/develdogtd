@@ -10,6 +10,10 @@ module.exports = Backbone.Collection.extend({
     projectChannel.reply('view:projects', this.getView, this);
     projectChannel.reply('model:byId', this.get, this);
     projectChannel.comply('add', this.addProject, this);
+
+    this.on('add', function(project) {
+      projectChannel.trigger('added', project);
+    });
   },
 
   listProjects: function() {
@@ -27,6 +31,10 @@ module.exports = Backbone.Collection.extend({
   },
 
   addProject: function(project) {
-    return project ? this.add(project) : this.add({});
+    if(project) {
+      this.add(project);
+    } else {
+      this.add({});
+    }
   }
 });

@@ -1,5 +1,6 @@
-var projectChannel = require('../channels/project');
 var globalChannel = require('../channels/global');
+var projectChannel = require('../channels/project');
+var contextChannel = require('../channels/context');
 var moment = require('moment');
 var time = require('../config').time;
 
@@ -23,12 +24,13 @@ module.exports = Marionette.ItemView.extend({
     this.$name = this.$('input[name="action-name"]');
     this.$notes = this.$('textarea#action-notes').hide();
     this.$project = this.$('.action-project');
-    this.$context = this.$('input[name="action-context"]');
-    this.$due = this.$('input[name="action-due"]');
+    this.$context = this.$('.action-context');
+    this.$due = this.$('.action-due');
     this.$completed = this.$('.action-completed').prop('checked', this.model.get('completed'));
 
-    // Set the correct class for the state
-    this.initSelect();
+
+    this.initProjectSelect();
+    this.initContextSelect();
     this.initCalendar();
     this.attachListeners();
     this.toggleClass();
@@ -36,7 +38,7 @@ module.exports = Marionette.ItemView.extend({
     return this;
   },
 
-  initSelect: function() {
+  initProjectSelect: function() {
     this.$project.selectize({
       valueField: 'id',
       labelField: 'name',
@@ -63,6 +65,43 @@ module.exports = Marionette.ItemView.extend({
       persist: true,
       closeAfterSelect: true
     });
+
+    this.listenTo(projectChannel, 'added', function(project) {
+      this.$project.get().selectize.addOption(context.toJSON());
+    });
+  },
+
+  initContextSelect: function () {
+    this.$context.selectize({
+      valueField: 'id',
+      labelField: 'name',
+      searchField: ['name'],
+      sortField: 'name',
+      create: function(input, cb) {
+        $.ajax({
+          url: '/api/v1/contexts',
+          type: 'POST',
+          data: {
+            name: input
+          }
+        }).done(function(response) {
+          contextChannel.command('add', response);
+          cb(response);
+        }).fail(function() {
+          cb();
+        });
+      },
+
+      maxItems: 1,
+      item: [this.model.get('context_id')],
+      options: contextChannel.request('list'),
+      persist: true,
+      closeAfterSelect: true
+    });
+
+    this.listenTo(contextChannel, 'added', function(context) {
+      this.$context[0].selectize.addOption(context.toJSON());
+    });
   },
 
   initCalendar: function() {
@@ -80,6 +119,7 @@ module.exports = Marionette.ItemView.extend({
     this.listenTo(this.model, 'change', this.toggleClass);
     this.listenTo(this.model, 'invalid', this.handleErrors);
     this.$project.on('change', _.bind(this.updateProject, this));
+    this.$context.on('change', _.bind(this.updateContext, this));
   },
 
   toggleClass: function() {
@@ -159,7 +199,7 @@ module.exports = Marionette.ItemView.extend({
   },
 
   updateContext: function() {
-    this.saveModel('context', this.$context.val());
+    this.saveModel('context_id', parseInt(this.$context.val(), 10));
   },
 
   updateDue: function() {

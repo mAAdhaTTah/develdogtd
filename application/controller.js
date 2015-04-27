@@ -1,6 +1,7 @@
 var AppView = require('../views/app');
 var actionChannel = require('../channels/action');
 var projectChannel = require('../channels/project');
+var contextChannel = require('../channels/context');
 
 module.exports = Marionette.Object.extend({
   initialize: function() {
@@ -19,15 +20,27 @@ module.exports = Marionette.Object.extend({
     this.view.main.show(actionChannel.request('view:inbox'));
   },
 
-  projects: function(projectId) {
+  projects: function(project_id) {
     this.view.setActive('projects');
 
     var view = projectChannel.request('view:projects');
 
     this.view.main.show(view);
 
-    if (projectId) {
-      view.setActive(projectId);
+    if (project_id) {
+      view.setActive(project_id);
+    }
+  },
+
+  contexts: function(context_id) {
+    this.view.setActive('contexts');
+
+    var view = contextChannel.request('view:contexts');
+
+    this.view.main.show(view);
+
+    if (context_id) {
+      view.setActive(context_id);
     }
   },
 

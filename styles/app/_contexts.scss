@@ -1,0 +1,106 @@
+ul.contexts {
+  background-color: $dark-gray;
+  padding: 0.5rem;
+  @include span-columns(2);
+  @include border-bottom-radius(5px);
+  @include border-top-radius(5px);
+
+   li {
+    margin: 5px 5px 5px 0;
+    padding: 3px;
+
+    &:before {
+      display: inline-block;
+      font-family: FontAwesome;
+      margin-right: 10px;
+      content: "\f0c9";
+      color: $light-gray;
+    }
+
+    &.active {
+      background-color: $medium-gray;
+      @include border-bottom-radius(5px);
+      @include border-top-radius(5px);
+
+      a {
+        color: $dark-gray;
+      }
+
+      &:before {
+        color: $dark-gray;
+      }
+    }
+  }
+}
+
+.current-context {
+  @include span-columns(10);
+
+  .header {
+
+  }
+
+  .actions {
+    padding-left: 20px;
+  }
+}
+
+.context {
+  @include row();
+  margin-top: 5px;
+  @include padding(15px);
+  background-color: $light-gray;
+  @include border-bottom-radius(5px);
+  @include border-top-radius(5px);
+
+  &.completed {
+    background-color: $medium-gray;
+
+    #{$all-text-inputs}, textarea {
+      background-color: $dark-gray;
+    }
+  }
+}
+
+.context-status {
+  @include span-columns(1);
+
+  input[type="checkbox"] {
+    display: none;
+
+    + label:before {
+      display: inline-block;
+      content: "\f10c";
+      font-family: FontAwesome;
+      font-size: 350%;
+      color: $dark-gray;
+    }
+
+    &:checked + label:before {
+      content: "\f05d";
+    }
+  }
+}
+
+.context-info {
+  @include span-columns(11);
+}
+
+.context-atts {
+  @include row();
+
+  #{$all-text-inputs}, .selectize-control {
+    @include span-columns(3);
+
+  }
+
+  > input:last-child {
+    float: right;
+  }
+
+  .edit-notes {
+    @include span-columns(1);
+    text-align: bottom;
+    color: $dark-gray;
+  }
+}

@@ -2,6 +2,7 @@
 @import "toolbar";
 @import "actions";
 @import "projects";
+@import "contexts";
 
 .app {
   @include outer-container();

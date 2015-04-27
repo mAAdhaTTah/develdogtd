@@ -1,5 +1,6 @@
 var bookshelf = require('../common/bookshelf');
 var User = require('./user');
+var Context = require('./context');
 var moment = require('moment');
 var validation = require('./validation').task;
 
@@ -21,6 +22,10 @@ module.exports = bookshelf.model('Task', {
 
   user: function() {
     return this.belongsTo('User');
+  },
+
+  context: function() {
+    return this.hasOne('Context');
   },
 
   format: function(attrs) {

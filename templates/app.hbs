@@ -3,7 +3,7 @@
     <ul class="navigation">
       <li class="perspective" id="inbox"><a href="#inbox">Inbox</a></li>
       <li class="perspective" id="projects"><a href="#projects">Projects</a></li>
-      {{!-- <li class="perspective" id="contexts"><a href="#contexts">Contexts</a></li> --}}
+      <li class="perspective" id="contexts"><a href="#contexts">Contexts</a></li>
     </ul>
     <div class="toolbar">
       <span class="tool" id="refresh"></span>
@@ -15,7 +15,8 @@
 <script type="text/javascript">
   var ddBoot = {
     actions: {{{actions}}},
-    projects: {{{projects}}}
+    projects: {{{projects}}},
+    contexts: {{{contexts}}}
   }
 </script>
 <script src="client.js"></script>

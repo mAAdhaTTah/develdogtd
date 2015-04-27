@@ -1,22 +1,38 @@
 var Task = require('../models/task');
+var Context = require('../models/context');
 
 module.exports = function() {
   return {
-    q: Task.forge(),
+    action: function(user_id) {
+      this.q = Task.forge();
 
-    action: function(userId) {
       this.q.set({
         type: 'action',
-        user_id: userId
+        user_id: user_id
       });
 
       return this;
     },
 
-    project: function(userId) {
+    project: function(user_id) {
+      this.q = Task.forge();
+
       this.q.set({
         type: 'project',
-        user_id: userId
+        user_id: user_id
+      });
+
+      return this;
+    },
+
+    context: function(user_id) {
+      // @todo this is stupid, there's gotta
+      // be a better way to structure
+      // this database interface
+      this.q = Context.forge();
+
+      this.q.set({
+        user_id: user_id
       });
 
       return this;

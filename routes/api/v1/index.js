@@ -17,5 +17,6 @@ router.use(function(req, res, next) {
 
 router.use('/actions', require('./actions'));
 router.use('/projects', require('./projects'));
+router.use('/contexts', require('./contexts'));
 
 module.exports = router;

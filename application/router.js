@@ -5,7 +5,9 @@ module.exports = Marionette.AppRouter.extend({
     '': 'redirectTo',
     'inbox': 'inbox',
     'projects': 'projects',
-    'projects/:projectId': 'projects'
+    'projects/:project_id': 'projects',
+    'contexts': 'contexts',
+    'contexts/:context_id': 'contexts'
   },
 
   initialize: function() {

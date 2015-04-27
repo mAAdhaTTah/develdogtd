@@ -22,12 +22,16 @@ router.get('/', function(req, res) {
   }).then(function(projects) {
     ddBoot.projects = projects.toJSON();
 
+    return db().context(req.user.id).all();
+  }).then(function(contexts) {
+    ddBoot.contexts = contexts.toJSON();
+
     res.render('app', {
       title: 'App - DeveldoGTD',
       actions: JSON.stringify(ddBoot.actions),
-      projects: JSON.stringify(ddBoot.projects)
+      projects: JSON.stringify(ddBoot.projects),
+      contexts: JSON.stringify(ddBoot.contexts)
     });
-
   });
 });
 
