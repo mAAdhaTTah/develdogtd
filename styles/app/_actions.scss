@@ -2,7 +2,7 @@
   @include row();
   margin-top: 5px;
   margin-right: 20px;
-  @include padding(15px);
+  @include padding(15px 25px 15px 10px);
   @include border-bottom-radius(5px);
   @include border-top-radius(5px);
 
@@ -37,6 +37,7 @@
 
 .action-status {
   @include span-columns(1);
+  margin-right: 0;
 
   input[type="checkbox"] {
     display: none;
@@ -57,6 +58,7 @@
 
 .action-info {
   @include span-columns(11);
+  width: 93.82785%;
 }
 
 .action-atts {

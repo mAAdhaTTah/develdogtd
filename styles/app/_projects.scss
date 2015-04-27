@@ -1,7 +1,7 @@
 ul.projects {
   background-color: $dark-gray;
   padding: 0.5rem;
-  @include span-columns(3);
+  @include span-columns(2);
   @include border-bottom-radius(5px);
   @include border-top-radius(5px);
 
@@ -34,7 +34,7 @@ ul.projects {
 }
 
 .current-project {
-  @include span-columns(9);
+  @include span-columns(10);
 
   .header {
 
