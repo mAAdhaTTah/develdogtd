@@ -26,6 +26,20 @@ gulp.task('sass', function() {
     .pipe(browserSync.reload({stream: true}));
 });
 
+// @todo this is bad, use gulpif
+gulp.task('sass-build', function() {
+  return gulp.src('styles/main.scss')
+    .pipe(sass({
+        includePaths: require('node-bourbon').with(require('node-neat').includePaths)
+    }))
+    .on('error', function(error) {
+      console.log(error);
+    })
+    .pipe(importCss())
+    .pipe(gulp.dest('public'))
+    .pipe(browserSync.reload({stream: true}));
+});
+
 // we'd need a slight delay to reload browsers
 // connected to browser-sync after restarting nodemon
 var BROWSER_SYNC_RELOAD_DELAY = 500;
@@ -95,7 +109,7 @@ gulp.task('browserify', function () {
   }
 });
 
-gulp.task('build',['sass'], function() {
+gulp.task('build',['sass-build'], function() {
   return browserify({
     entries: './client.js',
     debug: true,
@@ -105,8 +119,6 @@ gulp.task('build',['sass'], function() {
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('client.js'))
     .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./public/'));
 });
 
