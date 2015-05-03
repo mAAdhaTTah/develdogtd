@@ -48,7 +48,7 @@ ul.contexts {
 .context {
   @include row();
   margin-top: 5px;
-  @include padding(15px);
+  @include padding(15px 15px 0);
   background-color: $light-gray;
   @include border-bottom-radius(5px);
   @include border-top-radius(5px);

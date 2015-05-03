@@ -5,5 +5,5 @@
 @import "contexts";
 
 .app {
-  @include outer-container();
+  @include outer-container(100%);
 }
