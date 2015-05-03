@@ -29,5 +29,10 @@ module.exports = Marionette.CompositeView.extend({
 
     this.regions.get('header').show(projectHeader);
     this.regions.get('actions').show(actionsView);
+  },
+
+  showUnassigned: function() {
+    var actionsView = actionChannel.request('view:byProject');
+    this.regions.get('actions').show(actionsView);
   }
 });

@@ -25,5 +25,10 @@ module.exports = Marionette.CompositeView.extend({
     this.children.findByModel(model).makeActive();
 
     this.regions.get('actions').show(actionsView);
+  },
+
+  showUnassigned: function() {
+    var actionsView = actionChannel.request('view:byContext');
+    this.regions.get('actions').show(actionsView);
   }
 });

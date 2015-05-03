@@ -23,7 +23,15 @@ module.exports = Backbone.Collection.extend({
     var view = this.newView();
 
     view.filter = function(child, index, collection) {
-      return !child.get('completed') && child.get('project_id') === model.id;
+      if (child.get('completed')) {
+        return false;
+      }
+
+      if (model) {
+        return child.get('project_id') === model.id;
+      }
+
+      return child.get('project_id') === null;
     };
 
     return view;
@@ -33,7 +41,15 @@ module.exports = Backbone.Collection.extend({
     var view = this.newView();
 
     view.filter = function(child, index, collection) {
-      return !child.get('completed') && child.get('context_id') === model.id;
+      if (child.get('completed')) {
+        return false;
+      }
+
+      if (model) {
+        return child.get('context_id') === model.id;
+      }
+
+      return child.get('context_id') === null;
     };
 
     return view;

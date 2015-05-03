@@ -29,6 +29,8 @@ module.exports = Marionette.Object.extend({
 
     if (project_id) {
       view.setActive(project_id);
+    } else {
+      view.showUnassigned();
     }
   },
 
@@ -41,6 +43,8 @@ module.exports = Marionette.Object.extend({
 
     if (context_id) {
       view.setActive(context_id);
+    } else {
+      view.showUnassigned();
     }
   },
 
