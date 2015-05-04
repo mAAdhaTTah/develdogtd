@@ -15,7 +15,7 @@ gulp.task('sass', function() {
   return gulp.src('styles/main.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
-        includePaths: require('node-bourbon').with(require('node-neat').includePaths)
+      includePaths: require('node-bourbon').with(require('node-neat').includePaths)
     }))
     .on('error', function(error) {
       console.log(error);
@@ -30,7 +30,7 @@ gulp.task('sass', function() {
 gulp.task('sass-build', function() {
   return gulp.src('styles/main.scss')
     .pipe(sass({
-        includePaths: require('node-bourbon').with(require('node-neat').includePaths)
+      includePaths: require('node-bourbon').with(require('node-neat').includePaths)
     }))
     .on('error', function(error) {
       console.log(error);
@@ -44,32 +44,35 @@ gulp.task('sass-build', function() {
 // connected to browser-sync after restarting nodemon
 var BROWSER_SYNC_RELOAD_DELAY = 500;
 
-gulp.task('nodemon', function (cb) {
+gulp.task('nodemon', function(cb) {
   var called = false;
   return nodemon({
 
-      // nodemon our expressjs server
-      script: './bin/www',
+    // nodemon our expressjs server
+    script: './bin/www',
 
-      // watch core server file(s) that require server restart on change
-      watch: ['server.js', '**/*.js']
-    })
+    // watch core server file(s) that require server restart on change
+    watch: ['server.js', '**/*.js']
+  })
     .on('start', function onStart() {
       // ensure start only got called once
-      if (!called) { cb(); }
+      if (!called) {
+        cb();
+      }
+
       called = true;
     })
     .on('restart', function onRestart() {
       // reload connected browsers after a slight delay
       setTimeout(function reload() {
         browserSync.reload({
-          stream: false   //
+          stream: false
         });
       }, BROWSER_SYNC_RELOAD_DELAY);
     });
 });
 
-gulp.task('browser-sync', ['nodemon'], function () {
+gulp.task('browser-sync', ['nodemon'], function() {
 
   // for more browser-sync config options: http://www.browsersync.io/docs/options/
   browserSync.init({
@@ -86,14 +89,18 @@ gulp.task('browser-sync', ['nodemon'], function () {
   gulp.watch('styles/**/*.scss', ['sass']);
 });
 
-gulp.task('browserify', function () {
+gulp.task('browserify', function() {
   var bundler = watchify(browserify({
     entries: './client.js',
     debug: true,
-    transform: ["hbsfy"]
+    transform: [
+      'hbsfy',
+      'unreachable-branch-transform'
+    ]
   }));
 
-  bundler.on('update', bundle); // on any dep update, runs the bundler
+  // on any dep update, runs the bundler
+  bundler.on('update', bundle);
   bundle();
 
   function bundle() {
@@ -109,11 +116,14 @@ gulp.task('browserify', function () {
   }
 });
 
-gulp.task('build',['sass-build'], function() {
+gulp.task('build', ['sass-build'], function() {
   return browserify({
     entries: './client.js',
     debug: true,
-    transform: ["hbsfy"]
+    transform: [
+      'hbsfy',
+      'unreachable-branch-transform'
+    ]
   })
     .bundle()
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
@@ -122,4 +132,4 @@ gulp.task('build',['sass-build'], function() {
     .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('default',['sass', 'browser-sync', 'browserify']);
+gulp.task('default', ['sass', 'browser-sync', 'browserify']);
