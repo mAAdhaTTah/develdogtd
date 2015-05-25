@@ -9,7 +9,6 @@ if (typeof window === 'undefined') {
   var bookshelf = require('../common/bookshelf');
   var User = require('./user');
   var Task = require('./task');
-  var validation = require('../models/validation');
 
   module.exports = bookshelf.model('Context', {
     tableName: 'contexts',
