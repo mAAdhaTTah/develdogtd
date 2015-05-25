@@ -119,7 +119,7 @@ gulp.task('browserify', function() {
 gulp.task('build', ['sass-build'], function() {
   return browserify({
     entries: './client.js',
-    debug: true,
+    debug: false,
     transform: [
       'hbsfy',
       'unreachable-branch-transform'
