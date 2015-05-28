@@ -3,6 +3,6 @@ module.exports = Backbone.Model.extend({
     name: '',
     type: 'project',
     completed: false,
-    project_id: null
+    context_id: null
   }
 });

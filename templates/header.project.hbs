@@ -1,15 +1,15 @@
-<div class="project-status">
-  <input type="checkbox" name="{{id}}-project-completed" id="{{id}}-project-completed" class="project-completed">
-  <label for="{{id}}-project-completed"></label>
+<div class="status">
+  <input type="checkbox" name="{{id}}-completed" id="{{id}}-completed" class="completed">
+  <label for="{{id}}-completed"></label>
 </div>
-<div class="project-info">
-  <input type="text" value="{{name}}" name="project-name">
-  <div class="project-atts">
+<div class="info">
+  <input type="text" value="{{name}}" class="name">
+  <div class="attributes">
     <div class="edit-notes"><i class="fa fa-2x fa-pencil-square-o"></i></div>
-    {{!-- <input type="text" value="{{context}}" name="project-context"> --}}
-    <input type="text" value="{{due}}" name="project-due">
+    <input type="text" value="{{context_id}}" class="context-id">
+    <input type="text" value="{{due}}" class="due">
   </div>
-  <div class="project-notes">
-    <textarea id="project-notes" rows="3">{{notes}}</textarea>
+  <div class="attachments">
+    <textarea class="notes" rows="3">{{notes}}</textarea>
   </div>
 </div>

@@ -60,42 +60,15 @@ ul.projects {
       background-color: $dark-gray;
     }
   }
-}
 
-.project-status {
-  @include span-columns(1);
+  .status {
 
-  input[type="checkbox"] {
-    display: none;
+    .completed {
 
-    + label:before {
-      display: inline-block;
-      content: "\f10c";
-      font-family: FontAwesome;
-      font-size: 350%;
-      color: $dark-gray;
+      + label:before {
+        color: $dark-gray;
+      }
     }
-
-    &:checked + label:before {
-      content: "\f05d";
-    }
-  }
-}
-
-.project-info {
-  @include span-columns(11);
-}
-
-.project-atts {
-  @include row();
-
-  #{$all-text-inputs}, .selectize-control {
-    @include span-columns(3);
-
-  }
-
-  > input:last-child {
-    float: right;
   }
 
   .edit-notes {

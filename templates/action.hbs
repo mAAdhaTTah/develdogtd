@@ -1,19 +1,19 @@
-<div class="action-delete">
+<div class="delete">
   <div class="button"></div>
 </div>
-<div class="action-status">
-  <input type="checkbox" name="{{id}}-action-completed" id="{{id}}-action-completed" class="action-completed">
-  <label for="{{id}}-action-completed"></label>
+<div class="status">
+  <input type="checkbox" id="{{id}}-completed" class="completed">
+  <label for="{{id}}-completed"></label>
 </div>
-<div class="action-info">
-  <input type="text" value="{{name}}" name="action-name">
-  <div class="action-atts">
+<div class="info">
+  <input type="text" value="{{name}}" class="name">
+  <div class="attributes">
     <div class="edit-notes"><i class="fa fa-2x fa-pencil-square-o"></i></div>
-    <input type="text" value="{{project_id}}" class="action-project">
-    <input type="text" value="{{context_id}}" class="action-context">
-    <input type="text" value="{{due}}" class="action-due">
+    <input type="text" value="{{project_id}}" class="project-id">
+    <input type="text" value="{{context_id}}" class="context-id">
+    <input type="text" value="{{due}}" class="due">
   </div>
-  <div class="action-notes">
-    <textarea id="action-notes" rows="3">{{notes}}</textarea>
+  <div class="attachments">
+    <textarea class="notes" rows="3">{{notes}}</textarea>
   </div>
 </div>

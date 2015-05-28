@@ -1,0 +1,58 @@
+.delete {
+  position: relative;
+
+  .button {
+    position: absolute;
+    right: -20px;
+
+    &:before {
+      content: "\f00d";
+      font-family: FontAwesome;
+      font-style: normal;
+    }
+  }
+}
+
+.status {
+  @include span-columns(1);
+  margin-right: 0;
+
+  .completed {
+    display: none;
+
+    + label:before {
+      display: inline-block;
+      content: "\f10c";
+      font-family: FontAwesome;
+      font-size: 350%;
+      font-style: normal;
+    }
+
+    &:checked + label:before {
+      content: "\f05d";
+    }
+  }
+}
+
+.info {
+  @include span-columns(11);
+  width: 93.82785%;
+}
+
+.attributes {
+  @include row();
+
+  #{$all-text-inputs}, .selectize-control {
+    @include span-columns(3);
+
+  }
+
+  > input:last-child {
+    float: right;
+  }
+
+  .edit-notes {
+    @include span-columns(1);
+    text-align: bottom;
+  }
+}

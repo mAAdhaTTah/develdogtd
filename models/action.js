@@ -5,8 +5,8 @@ module.exports = Backbone.Model.extend({
     name: '',
     type: 'action',
     completed: false,
-    project_id: null
-    // context_id: null
+    project_id: null,
+    context_id: null
   },
 
   validate: function (atts, opts) {
