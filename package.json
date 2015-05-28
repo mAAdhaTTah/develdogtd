@@ -57,6 +57,7 @@
     "session-file-store": "0.0.3",
     "stream-browserify": "^1.0.0",
     "unreachable-branch-transform": "^0.2.3",
+    "velocity-animate": "1.2.2",
     "vinyl-buffer": "1.0.0",
     "vinyl-source-stream": "1.0.0",
     "vinyl-transform": "1.0.0",

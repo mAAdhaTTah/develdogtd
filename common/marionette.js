@@ -7,3 +7,4 @@ require('selectize');
 require('jquery-datetimepicker');
 Backbone.$ = $ || jQuery;
 Marionette = require('backbone.marionette');
+require('velocity-animate');
