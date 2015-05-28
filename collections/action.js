@@ -1,5 +1,6 @@
 var CollectionView = require('../views/collection.action');
 var actionChannel = require('../channels/action');
+var projectChannel = require('../channels/project');
 
 module.exports = Backbone.Collection.extend({
   model: require('../models/action'),
@@ -61,6 +62,10 @@ module.exports = Backbone.Collection.extend({
     });
   },
 
+  /**
+   * Creates a new action based on the current app state
+   * and adds it to the collection
+   */
   addAction: function() {
     var action = {};
     var routeParts = Backbone.history.getFragment().split('/');
@@ -72,12 +77,21 @@ module.exports = Backbone.Collection.extend({
     //
     // @todo this seems... not great; got a better idea?
     // we're assuming all our routes are pural/end in 's'
-    // controller or app state state?
+    // controller or app state?
     if (routeParts.length > 1) {
       var base = routeParts[0];
       var id = routeParts[1];
 
       action[base.slice(0, -1) + '_id'] = parseInt(id);
+
+      if (action.project_id) {
+        var context_id;
+        var project = projectChannel.request('model:byId', action.project_id);
+
+        if (context_id = project.get('context_id')) {
+          action.context_id = context_id;
+        }
+      }
     }
 
     this.add(action);
