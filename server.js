@@ -6,9 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs  = require('express-handlebars');
-var session = require('express-session');
 var passport = require('./common/passport');
-var FileStore = require('session-file-store')(session);
 var config = require('./config');
 var debug = require('debug')('develdogtd:server');
 
@@ -16,12 +14,12 @@ var app = express();
 
 // view engine setup
 var hbs = exphbs.create({
-    extname: '.hbs',
-    layoutsDir: path.join(__dirname, 'templates/layouts/'),
-    partialsDir: {
-        dir: path.join(__dirname, 'templates/partials/')
-    },
-    defaultLayout: 'main.hbs'
+  extname: '.hbs',
+  layoutsDir: path.join(__dirname, 'templates/layouts/'),
+  partialsDir: {
+    dir: path.join(__dirname, 'templates/partials/')
+  },
+  defaultLayout: 'main.hbs'
 });
 app.engine('.hbs', hbs.engine);
 app.set('views', path.join(__dirname, 'templates'));
@@ -34,14 +32,7 @@ app.use(require('express-promise')());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({
-  store: new FileStore({
-    path: './sessions'
-  }),
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true
-}));
+app.use(require('./middleware/session'));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, './public')));

@@ -35,6 +35,4 @@ npm-debug.log
 # Build dir
 public/
 
-# Session Files
-sessions
 .env
