@@ -2,7 +2,7 @@ var CollectionView = require('../views/collection.context');
 var contextChannel = require('../channels/context');
 
 module.exports = Backbone.Collection.extend({
-  model: require('../models/context'),
+  model: require('../models/context/client'),
   url: '/api/v1/contexts',
 
   initialize: function() {

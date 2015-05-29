@@ -1,6 +1,6 @@
 var bookshelf = require('../common/bookshelf');
-var User = require('./user');
-var Context = require('./context');
+var User = require('./user/server');
+var Context = require('./context/server');
 var moment = require('moment');
 var validation = require('./validation').task;
 

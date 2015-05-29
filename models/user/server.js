@@ -1,6 +1,6 @@
-var bookshelf = require('../common/bookshelf');
-var Task = require('./task');
-var Context = require('./context');
+var bookshelf = require('../../common/bookshelf');
+var Task = require('../task');
+var Context = require('../context/server');
 
 module.exports = bookshelf.model('User', {
   tableName: 'users',
@@ -10,6 +10,10 @@ module.exports = bookshelf.model('User', {
     return this.hasMany('Task');
   },
 
+  /**
+   * User can have many contexts
+   * @returns {*}
+   */
   contexts: function() {
     return this.hasMany('Context');
   }

@@ -1,6 +1,6 @@
 var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
-var User = require('../models/user');
+var User = require('../models/user/server');
 var config = require('../config');
 
 var opts = {

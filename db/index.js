@@ -1,5 +1,5 @@
 var Task = require('../models/task');
-var Context = require('../models/context');
+var Context = require('../models/context/server');
 
 module.exports = function() {
   return {
