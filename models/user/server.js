@@ -1,4 +1,4 @@
-var bookshelf = require('../../common/bookshelf');
+var bookshelf = require('../../db/bookshelf');
 var Task = require('../task');
 var Context = require('../context/server');
 

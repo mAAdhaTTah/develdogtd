@@ -1,6 +1,6 @@
 var validation = require('../validation').context;
 
-var bookshelf = require('../../common/bookshelf');
+var bookshelf = require('../../db/bookshelf');
 var User = require('../user/server');
 var Task = require('../task');
 
