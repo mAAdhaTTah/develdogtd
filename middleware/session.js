@@ -1,6 +1,7 @@
 var app = require('../server');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
+var config = require('../config');
 
 /**
  * Initialize the app session
@@ -12,8 +13,8 @@ module.exports = function(app) {
       client: require('./redis'),
       disableTTL: true
     }),
-    secret: 'keyboard cat',
+    secret: config.sessionSecret,
     resave: false,
     saveUninitialized: true
   }));
-}
+};

@@ -16,7 +16,8 @@ var config = {
   time: {
     server: moment.ISO_8601,
     client: 'YYYY/MM/DD HH:mm'
-  }
+  },
+  sessionSecret: process.env.sessionSecret || 'keyboard cat'
 };
 
 config.github = {
