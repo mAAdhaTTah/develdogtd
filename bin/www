@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var server = require('../server');
+var app = require('../server');
 var debug = require('debug')('develdogtd:server');
 var http = require('http');
 var config = require('../config');
@@ -12,13 +12,13 @@ var config = require('../config');
 /**
  * Get port from environment and store in Express.
  */
-server.set('port', config.web.port);
+app.set('port', config.web.port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(server);
+var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
