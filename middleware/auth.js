@@ -9,17 +9,30 @@ var opts = {
   callbackURL: config.github.callbackUrl
 };
 
+/**
+ * Register the required Passport options
+ */
 passport.use(new GitHubStrategy(opts, verify));
-
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
-
 passport.deserializeUser(function(id, done) {
   done(null, id);
 });
 
-module.exports = passport;
+/**
+ * Registers Passport with the app and returns module
+ * @param app
+ * @returns {Passport}
+ */
+module.exports = function(app) {
+  if (app) {
+    app.use(passport.initialize());
+    app.use(passport.session());
+  }
+
+  return passport;
+};
 
 function verify(accessToken, refreshToken, profile, done) {
   User.forge({

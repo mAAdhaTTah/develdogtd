@@ -29,16 +29,16 @@ router.get('/', function(req, res) {
 
   Promise.all([tasks, contexts]).then(function(results) {
     var tasks = results[0];
-    var contexts = results[1];
+    var contexts = results[1].toJSON();
 
     var actions = tasks.where({ type: 'action' });
     var projects = tasks.where({ type: 'project' });
 
     res.render('app', {
       title: 'App - DeveldoGTD',
-      actions: JSON.stringify(actions.toJSON()),
-      projects: JSON.stringify(projects.toJSON()),
-      contexts: JSON.stringify(contexts.toJSON())
+      actions: JSON.stringify(actions),
+      projects: JSON.stringify(projects),
+      contexts: JSON.stringify(contexts)
     });
   });
 });
