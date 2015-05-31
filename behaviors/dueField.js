@@ -53,6 +53,6 @@ module.exports = Marionette.Behavior.extend({
    */
   updateDue: function() {
     this.toggleClass();
-    this.view.saveModel('due', moment(this.view.$due.val(), time.client).format());
+    this.view.saveModel('due', moment(this.ui.due.val(), time.client).format());
   }
 });
