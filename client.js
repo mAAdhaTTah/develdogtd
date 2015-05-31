@@ -1,4 +1,4 @@
-require('./common/marionette');
+require('./application/shim');
 
 var Application = require('./application');
 
