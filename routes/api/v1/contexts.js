@@ -9,13 +9,13 @@ router.route(
     '/'
   ).get(function(req, res) {
     res.json(db()
-      .context(req.user.id)
+      .context(req.user)
       .all());
 
   }).post(function(req, res) {
     debug(req.body);
     res.json(db()
-      .context(req.user.id)
+      .context(req.user)
       .set(req.body)
       .save());
 
@@ -25,20 +25,20 @@ router.route(
     '/:context_id'
   ).get(function(req, res) {
     res.json(db()
-      .context(req.user.id)
+      .context(req.user)
       .id(req.params.context_id)
       .one());
 
   }).put(function(req, res) {
     res.json(db()
-      .context(req.user.id)
+      .context(req.user)
       .id(req.params.context_id)
       .set(req.body)
       .save());
 
   }).delete(function(req, res) {
     res.json(db()
-      .context(req.user.id)
+      .context(req.user)
       .id(req.params.context_id)
       .delete());
 

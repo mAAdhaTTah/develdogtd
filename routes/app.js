@@ -14,15 +14,17 @@ router.use(function(req, res, next) {
 router.get('/', function(req, res) {
   var ddBoot = {};
 
-  db().action(req.user.id).remaining().all().then(function(actions) {
+  db().action(req.user).remaining().all().then(function(actions) {
     // @todo this may be prohibitive to do on the server
+    // we should query in order, not sort after the fact
+    // or do this async
     ddBoot.actions = _.sortByAll(actions.toJSON(), 'created_at');
 
-    return db().project(req.user.id).remaining().all();
+    return db().project(req.user).remaining().all();
   }).then(function(projects) {
     ddBoot.projects = projects.toJSON();
 
-    return db().context(req.user.id).all();
+    return db().context(req.user).all();
   }).then(function(contexts) {
     ddBoot.contexts = contexts.toJSON();
 

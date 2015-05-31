@@ -16,15 +16,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.forge({
-      id: id
-    }).fetch({
-      require: true
-    }).then(function(model) {
-      done(null, model);
-    }).catch(function(err) {
-      done(err, null);
-    });
+  done(null, id);
 });
 
 module.exports = passport;
