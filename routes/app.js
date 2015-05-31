@@ -1,8 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../db');
+var Task = require('../models/task');
+var Context = require('../models/context/server');
 var _ = require('lodash');
+var Promise = require('bluebird');
 
+/**
+ * Middleware to protect app route
+ */
 router.use(function(req, res, next) {
   if(!req.user) {
     return res.redirect('/login');
@@ -11,28 +16,29 @@ router.use(function(req, res, next) {
   next();
 });
 
+/**
+ * GET request on app route
+ */
 router.get('/', function(req, res) {
-  var ddBoot = {};
+  var tasks = Task.where({ user_id: req.user})
+    .query('orderBy', 'created_at', 'DESC')
+    .fetchAll();
+  var contexts = Context.where({ user_id: req.user})
+    .query('orderBy', 'created_at', 'DESC')
+    .fetchAll();
 
-  db().action(req.user).remaining().all().then(function(actions) {
-    // @todo this may be prohibitive to do on the server
-    // we should query in order, not sort after the fact
-    // or do this async
-    ddBoot.actions = _.sortByAll(actions.toJSON(), 'created_at');
+  Promise.all([tasks, contexts]).then(function(results) {
+    var tasks = results[0];
+    var contexts = results[1];
 
-    return db().project(req.user).remaining().all();
-  }).then(function(projects) {
-    ddBoot.projects = projects.toJSON();
-
-    return db().context(req.user).all();
-  }).then(function(contexts) {
-    ddBoot.contexts = contexts.toJSON();
+    var actions = tasks.where({ type: 'action' });
+    var projects = tasks.where({ type: 'project' });
 
     res.render('app', {
       title: 'App - DeveldoGTD',
-      actions: JSON.stringify(ddBoot.actions),
-      projects: JSON.stringify(ddBoot.projects),
-      contexts: JSON.stringify(ddBoot.contexts)
+      actions: JSON.stringify(actions.toJSON()),
+      projects: JSON.stringify(projects.toJSON()),
+      contexts: JSON.stringify(contexts.toJSON())
     });
   });
 });
