@@ -1,5 +1,8 @@
 .toolbar {
   @include row();
+  display: inline-block;
+  vertical-align: middle;
+  float: right;
 
   h1 {
     float: left;
