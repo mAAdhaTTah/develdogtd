@@ -1,8 +1,6 @@
-var express = require('express');
-var router = express.Router();
+var router = require('express').Router();
 var Task = require('../models/task');
 var Context = require('../models/context/server');
-var _ = require('lodash');
 var Promise = require('bluebird');
 
 /**
@@ -20,10 +18,15 @@ router.use(function(req, res, next) {
  * GET request on app route
  */
 router.get('/', function(req, res) {
-  var tasks = Task.where({ user_id: req.user})
+  var tasks = Task
+    .where({
+      user_id: req.user,
+      completed: false
+    })
     .query('orderBy', 'created_at', 'DESC')
     .fetchAll();
-  var contexts = Context.where({ user_id: req.user})
+  var contexts = Context
+    .where({ user_id: req.user})
     .query('orderBy', 'created_at', 'DESC')
     .fetchAll();
 
