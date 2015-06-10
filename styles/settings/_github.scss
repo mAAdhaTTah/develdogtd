@@ -1,0 +1,12 @@
+.import #github {
+  margin: 0 auto;
+  width: 210px;
+  background-color: #000;
+  @include border-top-radius(5px);
+  @include border-bottom-radius(5px);
+  padding: 0.75em 1em;
+
+  a {
+    cursor: pointer;
+  }
+}

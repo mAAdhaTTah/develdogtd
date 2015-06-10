@@ -10,6 +10,7 @@ var browserSync = require('browser-sync');
 var nodemon = require('gulp-nodemon');
 var transform = require('vinyl-transform');
 var importCss = require('gulp-import-css');
+var factor = require('factor-bundle');
 
 gulp.task('styles', function() {
   return gulp.src('styles/main.scss')
@@ -92,6 +93,12 @@ var bundler = browserify({
 
 function bundle() {
   return bundler
+    .plugin(factor, {
+      outputs: [
+        'public/application.js',
+        'public/settings.js'
+      ]
+    })
     .bundle()
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('common.js'))

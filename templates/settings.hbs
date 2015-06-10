@@ -1,0 +1,19 @@
+<div class="settings">
+  {{>header}}
+
+  <div class="main">
+    <div class="page-nav">
+      <a href="/settings#" class="page-link" id="user">User Information</a>
+      <a href="/settings#import" class="page-link" id="import">Import Projects</a>
+    </div>
+
+    <div class="active-page"></div>
+  </div>
+</div>
+<script type="text/javascript">
+  var ddBoot = {
+    user: {{{user}}}
+  }
+</script>
+<script src="common.js"></script>
+<script src="settings.js"></script>

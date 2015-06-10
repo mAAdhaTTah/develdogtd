@@ -10,6 +10,11 @@ module.exports = bookshelf.model('User', {
   tableName: 'users',
 
   /**
+   * Hide properties from client
+   */
+  hidden: ['github', 'id', 'created_at', 'updated_at', 'githubId'],
+
+  /**
    * User has timestamps
    */
   hasTimestamps: true,
