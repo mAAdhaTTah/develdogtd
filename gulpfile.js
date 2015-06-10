@@ -11,7 +11,7 @@ var nodemon = require('gulp-nodemon');
 var transform = require('vinyl-transform');
 var importCss = require('gulp-import-css');
 
-gulp.task('sass', function() {
+gulp.task('styles', function() {
   return gulp.src('styles/main.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
@@ -21,21 +21,9 @@ gulp.task('sass', function() {
       console.log(error);
     })
     .pipe(importCss())
+    // @todo gulpif the sourcemaps
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('public'))
-    .pipe(browserSync.reload({stream: true}));
-});
-
-// @todo this is bad, use gulpif
-gulp.task('sass-build', function() {
-  return gulp.src('styles/main.scss')
-    .pipe(sass({
-      includePaths: require('node-bourbon').with(require('node-neat').includePaths)
-    }))
-    .on('error', function(error) {
-      console.log(error);
-    })
-    .pipe(importCss())
+    // @todo gulpif uglification
     .pipe(gulp.dest('public'))
     .pipe(browserSync.reload({stream: true}));
 });
@@ -72,8 +60,7 @@ gulp.task('nodemon', function(cb) {
     });
 });
 
-gulp.task('browser-sync', ['nodemon'], function() {
-
+gulp.task('watchers', ['nodemon'], function() {
   // for more browser-sync config options: http://www.browsersync.io/docs/options/
   browserSync.init({
     // informs browser-sync to proxy our expressjs app which would run at the following location
@@ -86,50 +73,46 @@ gulp.task('browser-sync', ['nodemon'], function() {
     // open the proxied app in chrome
     browser: ['google chrome']
   });
-  gulp.watch('styles/**/*.scss', ['sass']);
+  gulp.watch('styles/**/*.scss', ['styles']);
+  var watcher = watchify(bundler);
+  watcher.on('update', bundle);
 });
 
-gulp.task('browserify', function() {
-  var bundler = watchify(browserify({
-    entries: './client.js',
-    debug: true,
-    transform: [
-      'hbsfy',
-      'unreachable-branch-transform'
-    ]
-  }));
-
-  // on any dep update, runs the bundler
-  bundler.on('update', bundle);
-  bundle();
-
-  function bundle() {
-    return bundler
-      .bundle()
-      .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-      .pipe(source('client.js'))
-      .pipe(buffer())
-      .pipe(sourcemaps.init({loadMaps: true}))
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./public/'))
-      .on('finish', browserSync.reload);
-  }
+var bundler = browserify({
+  entries: [
+    './application/index.js',
+    './settings/index.js'
+  ],
+  // @todo set debug based on env
+  debug: true,
+  transform: [
+    'hbsfy'
+  ]
 });
 
-gulp.task('build', ['sass-build'], function() {
-  return browserify({
-    entries: './client.js',
-    debug: false,
-    transform: [
-      'hbsfy',
-      'unreachable-branch-transform'
-    ]
-  })
+function bundle() {
+  return bundler
     .bundle()
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-    .pipe(source('client.js'))
+    .pipe(source('common.js'))
     .pipe(buffer())
-    .pipe(gulp.dest('./public/'));
+    // @todo gulpif the sourcemaps
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./public'))
+    // @todo gulpif uglification
+    // @todo gulpif the browserSync
+    .on('finish', browserSync.reload);
+}
+
+gulp.task('scripts', function() {
+  return bundler
+    .bundle()
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+    .pipe(source('app.js'))
+    .pipe(gulp.dest('./public'))
+    .on('finish', bundle);
 });
 
-gulp.task('default', ['sass', 'browser-sync', 'browserify']);
+gulp.task('default', ['styles', 'scripts', 'watchers']);
+gulp.task('build', ['styles', 'scripts']);
