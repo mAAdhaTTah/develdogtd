@@ -35,18 +35,18 @@ app.use('/api', require('./routes/api'));
 // development error handler
 // will print stacktrace
 if (config.debug) {
-  app.use(function(err, req, res, next) {
+  app.use(function(err, req, res) {
     res.status(err.status || 500);
     res.json({
       message: err.message,
-      error: err
+      error: err.stack
     });
   });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   res.status(err.status || 500);
   res.json({
     message: err.message,

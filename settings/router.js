@@ -7,7 +7,8 @@ module.exports = Marionette.AppRouter.extend({
    */
   appRoutes: {
     '': 'user',
-    'import': 'import'
+    'import': 'import',
+    'import/:source': 'import'
   },
 
   /**

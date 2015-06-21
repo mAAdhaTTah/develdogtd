@@ -2,6 +2,8 @@ var SettingsView = require('../views/settings');
 var UserView = require('../views/user');
 var UserModel = require('../models/user/client');
 var ImportView = require('../views/import');
+var ImportingView = require('../views/importing');
+var SourcesCollection = require('../collections/sources');
 
 module.exports = Marionette.Object.extend({
 
@@ -27,9 +29,23 @@ module.exports = Marionette.Object.extend({
   /**
    * Show the import view
    */
-  import: function() {
+  import: function(source) {
+    var view;
+
     this.view.setActive('import');
 
-    this.view.main.show(new ImportView());
+    if (source) {
+      var sources = new SourcesCollection(null, {
+        source: source
+      });
+
+      view = new ImportingView({
+        collection: sources
+      })
+    } else {
+      view = new ImportView();
+    }
+
+    this.view.main.show(view);
   }
 });

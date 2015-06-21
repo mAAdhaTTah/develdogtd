@@ -62,7 +62,7 @@
   }
 
   .active-page {
-    @include size(80% $vertical-tabs-height);
+    @include size(80%);
     @include padding(10px);
     background-color: $tab-content-background;
     display: inline-block;
