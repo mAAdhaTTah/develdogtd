@@ -1,5 +1,6 @@
 var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
+var _ = require('lodash');
 var User = require('../models/user/server');
 var config = require('../config');
 
@@ -35,21 +36,71 @@ module.exports = function(app) {
 };
 
 function verify(accessToken, refreshToken, profile, done) {
-  User.forge({
-      githubId: profile.id
-    }).fetch({ require: true })
-    .then(function(model) {
-      return done(null, model);
-    }).catch(function(err) {
+  User
+    .forge({
+      email: profile.emails.shift().value // @todo loop through and search for all email addresses associated w/ account
+    })
+    .fetch({
+      require: true,
+      withRelated: ['authorizations']
+    })
+    .catch(function(err) {
       // failed to find the user profile
       // so create a new one
-      return User.forge({
-        githubId: profile.id,
-        email: profile.emails.shift().value,
-        display: profile.displayName,
-        github: profile._json
-      }).save().then(function(model, err) {
-        return done(err, model);
+      // @todo make sure it's a "Not Found" error; otherwise, rethrow
+      return User
+        .forge({
+          email: profile.emails.shift().value,
+          display: profile.displayName
+        })
+        .save();
+    })
+    .then(function(user) {
+      var auths = user.related('authorizations');
+      var auth = auths.findWhere({ auth_source: 'github' });
+
+      // if we have a github source already
+      if (auth) {
+        var update = {};
+
+        // update all of the attributes that don't match what's in the db
+        if (auth.get('access_token') !== accessToken) {
+          update.access_token = accessToken;
+        }
+
+        if (refreshToken && auth.get('refresh_token') !== refreshToken) {
+          update.refresh_token = refreshToken;
+        }
+
+        if (!(_.isEqual(profile._json, auth.get('json')))) {
+          update.json = profile._json;
+        }
+
+        if (!(_.isEmpty(update))) {
+          // save the changes
+          return auth
+            .save(update, {
+              patch: true
+            })
+            .then(function() {
+              return done(null, user);
+            });
+        } else {
+          return done(null, user);
+        }
+      }
+
+      // if we dont' have a source, save a new one
+      return auths.create({
+        auth_source: 'github',
+        user_id: user.id,
+        profile_id: profile.id,
+        login_id: profile.username,
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        json: profile._json
+      }).then(function() {
+        return done(null, user);
       });
     });
 }

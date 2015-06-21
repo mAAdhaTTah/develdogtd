@@ -1,6 +1,7 @@
 var bookshelf = require('../../db/bookshelf');
 var Task = require('../task');
 var Context = require('../context/server');
+var Authorization = require('./authorization');
 
 module.exports = bookshelf.model('User', {
 
@@ -12,12 +13,20 @@ module.exports = bookshelf.model('User', {
   /**
    * Hide properties from client
    */
-  hidden: ['github', 'id', 'created_at', 'updated_at', 'githubId'],
+  hidden: ['id', 'created_at', 'updated_at'],
 
   /**
    * User has timestamps
    */
   hasTimestamps: true,
+
+  /**
+   * User can have many authorizations
+   * @returns {*}
+   */
+  authorizations: function() {
+    return this.hasMany('Authorization');
+  },
 
   /**
    * User can have many tasks
