@@ -11,10 +11,14 @@ var nodemon = require('gulp-nodemon');
 var transform = require('vinyl-transform');
 var importCss = require('gulp-import-css');
 var factor = require('factor-bundle');
+var config = require('./config');
+var gulpif = require('gulp-if');
+var uglify = require('gulp-uglify');
+var minifyCss = require('gulp-minify-css');
 
 gulp.task('styles', function() {
   return gulp.src('styles/main.scss')
-    .pipe(sourcemaps.init())
+    .pipe(gulpif(config.debug, sourcemaps.init()))
     .pipe(sass({
       includePaths: require('node-bourbon').with(require('node-neat').includePaths)
     }))
@@ -22,9 +26,8 @@ gulp.task('styles', function() {
       console.log(error);
     })
     .pipe(importCss())
-    // @todo gulpif the sourcemaps
-    .pipe(sourcemaps.write('./'))
-    // @todo gulpif uglification
+    .pipe(gulpif(config.debug, sourcemaps.write('./')))
+    .pipe(gulpif(!config.debug, minifyCss()))
     .pipe(gulp.dest('public'))
     .pipe(browserSync.reload({stream: true}));
 });
@@ -36,7 +39,6 @@ var BROWSER_SYNC_RELOAD_DELAY = 500;
 gulp.task('nodemon', function(cb) {
   var called = false;
   return nodemon({
-
     // nodemon our expressjs server
     script: './bin/www',
 
@@ -84,12 +86,16 @@ var bundler = browserify({
     './application/index.js',
     './settings/index.js'
   ],
-  // @todo set debug based on env
-  debug: true,
   transform: [
     'hbsfy'
   ]
-});
+})
+  .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+  .on('finish', function() {
+    if (config.debug) {
+      browserSync.reload();
+    }
+  });
 
 function bundle() {
   return bundler
@@ -100,23 +106,19 @@ function bundle() {
       ]
     })
     .bundle()
-    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('common.js'))
     .pipe(buffer())
-    // @todo gulpif the sourcemaps
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./public'))
-    // @todo gulpif uglification
-    // @todo gulpif the browserSync
-    .on('finish', browserSync.reload);
+    .pipe(gulpif(config.debug, sourcemaps.init()))
+    .pipe(gulpif(config.debug, sourcemaps.write('./')))
+    .pipe(gulpif(!config.debug, uglify()))
+    .pipe(gulp.dest('./public'));
 }
 
 gulp.task('scripts', function() {
   return bundler
     .bundle()
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-    .pipe(source('app.js'))
+    .pipe(source('common.js'))
     .pipe(gulp.dest('./public'))
     .on('finish', bundle);
 });
