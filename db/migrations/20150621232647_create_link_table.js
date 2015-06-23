@@ -14,13 +14,17 @@ exports.up = function(knex, Promise) {
       Promise.resolve();
     })
     .catch(function(err) {
-      console.log(err);
-      Promise.reject();
+      Promise.reject(err);
     });
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('links').then(function() {
-    Promise.resolve();
-  });
+  return knex.schema
+    .dropTable('links')
+    .then(function() {
+      Promise.resolve();
+    })
+    .catch(function(err) {
+      Promise.reject(err);
+    });
 };

@@ -20,7 +20,7 @@ exports.up = function(knex, Promise) {
           user_id: user.id,
           auth_source: 'github',
           profile_id: user.githubId,
-          login_id: user.github.login,
+          login_id: user.github.login || null,
           json: user.github
         });
     })
@@ -35,11 +35,22 @@ exports.up = function(knex, Promise) {
     })
     .catch(function(err) {
       Promise.reject(err);
-    })
+    });
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('authorizations').then(function() {
-    Promise.resolve();
-  });
+  return knex.schema
+    .dropTable('authorizations')
+    .then(function() {
+      return knex.schema.table('users', function(table) {
+        table.integer('githubId').unique().after('id');
+        table.json('github', true).after('display');
+      });
+    })
+    .then(function() {
+      Promise.resolve();
+    })
+    .catch(function(err) {
+      Promise.reject(err);
+    });
 };
