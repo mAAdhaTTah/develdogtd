@@ -23,11 +23,11 @@ router.get('/', function(req, res) {
       user_id: req.user,
       completed: false
     })
-    .query('orderBy', 'created_at', 'DESC')
+    .query('orderBy', 'created_at', 'ASC')
     .fetchAll();
   var contexts = Context
     .where({ user_id: req.user})
-    .query('orderBy', 'created_at', 'DESC')
+    .query('orderBy', 'created_at', 'ASC')
     .fetchAll();
 
   Promise.all([tasks, contexts]).then(function(results) {
