@@ -23,7 +23,8 @@ var config = {
 config.github = {
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackUrl:  'http://' + config.web.host + ( config.env !== 'development' ? '' : ':' + config.web.port )  + '/auth/github/callback'
+  // @todo there's gotta be a better way to do this
+  callbackUrl:  'http'+ ( config.env !== 'development' ? 's' : '' )  +'://' + config.web.host + ( config.env !== 'development' ? '' : ':' + config.web.port )  + '/auth/github/callback'
 };
 
 config.debug = config.env === 'development' ? true : false;
