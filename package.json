@@ -66,5 +66,9 @@
     "vinyl-source-stream": "1.0.0",
     "vinyl-transform": "1.0.0",
     "watchify": "2.4.0"
+  },
+  "devDependencies": {
+    "pg-copy-streams": "^0.3.0",
+    "yargs": "^3.12.0"
   }
 }
