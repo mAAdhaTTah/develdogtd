@@ -30,28 +30,4 @@ app.use('/app', require('./routes/app'));
 app.use('/settings', require('./routes/settings'));
 app.use('/api', require('./routes/api'));
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (config.debug) {
-  app.use(function(err, req, res) {
-    res.status(err.status || 500);
-    res.json({
-      message: err.message,
-      error: err.stack
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res) {
-  res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: {}
-  });
-});
-
 module.exports = app;
