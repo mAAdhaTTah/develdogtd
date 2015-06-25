@@ -38,7 +38,7 @@ module.exports = function(app) {
 function verify(accessToken, refreshToken, profile, done) {
   User
     .forge({
-      email: profile.emails.shift().value // @todo loop through and search for all email addresses associated w/ account
+      email: profile.emails[0].value // @todo loop through and search for all email addresses associated w/ account
     })
     .fetch({
       require: true,
@@ -50,7 +50,7 @@ function verify(accessToken, refreshToken, profile, done) {
       // @todo make sure it's a "Not Found" error; otherwise, rethrow
       return User
         .forge({
-          email: profile.emails.shift().value,
+          email: profile.emails[0].value,
           display: profile.displayName
         })
         .save();
