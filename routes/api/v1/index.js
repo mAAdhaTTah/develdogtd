@@ -18,6 +18,5 @@ router.use(function(req, res, next) {
 router.use('/actions', require('./actions'));
 router.use('/projects', require('./projects'));
 router.use('/contexts', require('./contexts'));
-router.use('/import', require('./import'));
 
 module.exports = router;

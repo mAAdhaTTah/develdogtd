@@ -21,6 +21,6 @@ module.exports = Backbone.Collection.extend({
       throw new Error('SourcesCollection must be initialized with a source');
     }
 
-    this.url = '/api/v1/import/' + opts.source;
+    this.url = '/import/' + opts.source;
   }
 });

@@ -1,16 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var HttpStatus = require('http-status-codes');
-var db = require('../../../db');
-var Authorization = require('../../../models/user/authorization');
+var db = require('../db/index');
+var Authorization = require('../models/user/authorization');
 var _ = require('lodash');
+var github = require('../middleware/github');
 
-router.route(
-  '/:source'
-).get(function(req, res) {
-    var source = req.params.source;
-
-    switch (source) {
+router.route('/:source')
+  .get(function(req, res) {
+    switch (req.params.source) {
       case 'github':
         Authorization
           .forge({
@@ -21,7 +19,7 @@ router.route(
             require: true
           })
           .then(function(auth) {
-            return require('../../../middleware/github')({
+            return github({
               auth_key: auth.get('access_token')
             })
               .getAllRepos();
@@ -34,10 +32,29 @@ router.route(
           });
         break;
       default:
-        res.json({
-          error: 'Source not configured'
-        });
+        res
+          .status(501)
+          .json({
+            error: 'Source not configured'
+          });
         break;
+    }
+  })
+  .post(function(req, res) {
+    switch(req.params.source) {
+      case 'github':
+        res
+          .status(501)
+          .json({
+            error: 'Source not configured'
+          });
+        break;
+      default:
+        res
+          .status(501)
+          .json({
+            error: 'Source not configured'
+          });
     }
   });
 
