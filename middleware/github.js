@@ -24,7 +24,7 @@ module.exports = function(opts) {
     client.authenticate({
       type: 'oauth',
       token: authed
-    })
+    });
   }
 
   return {
@@ -60,7 +60,7 @@ module.exports = function(opts) {
             imported: repo.imported,
             source: 'github',
             source_type: 'repository',
-            souce_id: repo.id
+            source_id: repo.id
           };
         });
     }
