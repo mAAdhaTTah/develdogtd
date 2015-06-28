@@ -15,11 +15,6 @@ var config = require('./config');
 var gulpif = require('gulp-if');
 var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
-var pg = require('pg');
-var copyTo = require('pg-copy-streams').to;
-var copyFrom = require('pg-copy-streams').from;
-var Promise = require('bluebird');
-var argv = require('yargs').argv;
 
 gulp.task('styles', function() {
   return gulp.src('styles/main.scss')
@@ -129,6 +124,12 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('pull', function(cb) {
+  var copyTo = require('pg-copy-streams').to;
+  var copyFrom = require('pg-copy-streams').from;
+  var Promise = require('bluebird');
+  var argv = require('yargs').argv;
+  var pg = require('pg');
+
   var remoteConn = argv.remote;
 
   var local = new pg.Client(config.db);
