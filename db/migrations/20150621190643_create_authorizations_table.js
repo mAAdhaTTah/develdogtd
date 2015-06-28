@@ -20,7 +20,7 @@ exports.up = function(knex, Promise) {
           user_id: user.id,
           auth_source: 'github',
           profile_id: user.githubId,
-          login_id: user.github.login || null,
+          login_id: user.github ? user.github.login : null,
           json: user.github
         });
     })
