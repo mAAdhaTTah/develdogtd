@@ -35,7 +35,7 @@ module.exports = Marionette.Behavior.extend({
     });
 
     this.listenTo(contextChannel, 'added', function(context) {
-      this.ui.context.get().selectize.addOption(context.toJSON());
+      this.ui.context[0].selectize.addOption(context.toJSON());
     });
   },
 
@@ -51,5 +51,12 @@ module.exports = Marionette.Behavior.extend({
    */
   updateContext: function() {
     this.view.saveModel('context_id', parseInt(this.ui.context.val(), 10));
+  },
+
+  /**
+   * Destroy the selectize object
+   */
+  onDestroy: function() {
+    this.ui.context[0].selectize.destroy();
   }
 });

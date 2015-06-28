@@ -35,7 +35,7 @@ module.exports = Marionette.Behavior.extend({
     });
 
     this.listenTo(projectChannel, 'added', function(project) {
-      this.ui.project.get().selectize.addOption(project.toJSON());
+      this.ui.project[0].selectize.addOption(project.toJSON());
     });
   },
 
@@ -51,5 +51,12 @@ module.exports = Marionette.Behavior.extend({
    */
   updateProject: function() {
     this.view.saveModel('project_id', parseInt(this.ui.project.val(), 10));
+  },
+
+  /**
+   * Destroy the selectize object
+   */
+  onDestroy: function() {
+    this.ui.project[0].selectize.destroy();
   }
 });
