@@ -54,5 +54,12 @@ module.exports = Marionette.Behavior.extend({
   updateDue: function() {
     this.toggleClass();
     this.view.saveModel('due', moment(this.ui.due.val(), time.client).format());
+  },
+
+  /**
+   * Destroy the datetimepicker object
+   */
+  onDestroy: function() {
+    this.ui.due.datetimepicker('destroy');
   }
 });
