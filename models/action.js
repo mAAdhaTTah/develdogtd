@@ -1,6 +1,7 @@
-var validation = require('./validation').task;
+import Backbone from 'backbone';
+import validation from './validation';
 
-module.exports = Backbone.Model.extend({
+export default Backbone.Model.extend({
   defaults: {
     name: '',
     type: 'action',
@@ -10,7 +11,8 @@ module.exports = Backbone.Model.extend({
   },
 
   validate: function (atts, opts) {
-    var result = validation.validateSync(atts);
+    let result = validation.task.validateSync(atts);
+
     if(result[0]) {
       return result[0].toJSON();
     }

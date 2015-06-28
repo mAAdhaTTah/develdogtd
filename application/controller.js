@@ -1,9 +1,11 @@
-var AppView = require('../views/app');
-var actionChannel = require('../channels/action');
-var projectChannel = require('../channels/project');
-var contextChannel = require('../channels/context');
+import AppView from '../views/app';
+import Marionette from 'backbone.marionette';
+import actionChannel from '../channels/action';
+import projectChannel from '../channels/project';
+import contextChannel from '../channels/context';
 
-module.exports = Marionette.Object.extend({
+export default Marionette.Object.extend({
+
   initialize: function() {
     this.view = new AppView();
     this.router = this.options.router;
@@ -23,7 +25,7 @@ module.exports = Marionette.Object.extend({
   projects: function(project_id) {
     this.view.setActive('projects');
 
-    var view = projectChannel.request('view:projects');
+    let view = projectChannel.request('view:projects');
 
     this.view.main.show(view);
 
@@ -37,7 +39,7 @@ module.exports = Marionette.Object.extend({
   contexts: function(context_id) {
     this.view.setActive('contexts');
 
-    var view = contextChannel.request('view:contexts');
+    let view = contextChannel.request('view:contexts');
 
     this.view.main.show(view);
 

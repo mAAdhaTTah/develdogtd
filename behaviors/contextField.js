@@ -1,6 +1,10 @@
-var contextChannel = require('../channels/context');
+import { Behavior } from 'backbone.marionette';
+import $ from 'jquery';
+import _ from 'lodash';
+import contextChannel from '../channels/context';
+import 'selectize';
 
-module.exports = Marionette.Behavior.extend({
+export default Behavior.extend({
 
   /**
    * Renders the context input element

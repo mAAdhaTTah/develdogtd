@@ -1,4 +1,6 @@
-module.exports = Marionette.CollectionView.extend({
+import { CollectionView } from 'backbone.marionette';
+
+export default CollectionView.extend({
 
   /**
    * Defines child views

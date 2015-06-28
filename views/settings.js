@@ -1,7 +1,6 @@
-/**
- * Settings page
- */
-module.exports = Marionette.LayoutView.extend({
+import { LayoutView } from 'backbone.marionette';
+
+export default LayoutView.extend({
 
   /**
    * View instantiates against

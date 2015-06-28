@@ -1,7 +1,8 @@
-var actionChannel = require('../channels/action');
-var contextChannel = require('../channels/context');
+import { CompositeView, RegionManager } from 'backbone.marionette';
+import actionChannel from '../channels/action';
+import contextChannel from '../channels/context';
 
-module.exports = Marionette.CompositeView.extend({
+export default CompositeView.extend({
   childView: require('./item.list.context'),
   childViewContainer: '.contexts',
   template: require('../templates/collection.context.hbs'),
@@ -11,7 +12,7 @@ module.exports = Marionette.CompositeView.extend({
   },
 
   onRender: function() {
-    this.regions = new Marionette.RegionManager({
+    this.regions = new RegionManager({
       regions: {
         actions: '.current-context .actions'
       }
@@ -19,8 +20,8 @@ module.exports = Marionette.CompositeView.extend({
   },
 
   setActive: function(id) {
-    var model = contextChannel.request('model:byId', id);
-    var actionsView = actionChannel.request('view:byContext', model);
+    let model = contextChannel.request('model:byId', id);
+    let actionsView = actionChannel.request('view:byContext', model);
 
     this.children.findByModel(model).makeActive();
 
@@ -28,7 +29,8 @@ module.exports = Marionette.CompositeView.extend({
   },
 
   showUnassigned: function() {
-    var actionsView = actionChannel.request('view:byContext');
+    let actionsView = actionChannel.request('view:byContext');
+
     this.regions.get('actions').show(actionsView);
   }
 });

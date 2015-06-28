@@ -1,8 +1,9 @@
-var CollectionView = require('../views/collection.action');
-var actionChannel = require('../channels/action');
-var projectChannel = require('../channels/project');
+import Backbone from 'backbone';
+import CollectionView from '../views/collection.action';
+import actionChannel from '../channels/action';
+import projectChannel from '../channels/project';
 
-module.exports = Backbone.Collection.extend({
+export default Backbone.Collection.extend({
   model: require('../models/action'),
   url: '/api/v1/actions',
 

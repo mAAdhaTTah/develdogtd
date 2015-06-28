@@ -1,8 +1,11 @@
-var CollectionView = require('../views/collection.project');
-var projectChannel = require('../channels/project');
+import Backbone from 'backbone';
+import CollectionView from '../views/collection.project';
+import projectChannel from '../channels/project';
 
-module.exports = Backbone.Collection.extend({
+export default Backbone.Collection.extend({
+
   model: require('../models/project'),
+
   url: '/api/v1/projects',
 
   initialize: function() {
@@ -21,7 +24,7 @@ module.exports = Backbone.Collection.extend({
   },
 
   getView: function(id) {
-    var view = new CollectionView({ collection: this });
+    let view = new CollectionView({ collection: this });
 
     if (id) {
       view.setActive(id);

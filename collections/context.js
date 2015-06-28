@@ -1,7 +1,8 @@
+import Backbone from 'backbone';
 var CollectionView = require('../views/collection.context');
 var contextChannel = require('../channels/context');
 
-module.exports = Backbone.Collection.extend({
+export default Backbone.Collection.extend({
   model: require('../models/context/client'),
   url: '/api/v1/contexts',
 
@@ -21,7 +22,7 @@ module.exports = Backbone.Collection.extend({
   },
 
   getView: function(id) {
-    var view = new CollectionView({ collection: this });
+    let view = new CollectionView({ collection: this });
 
     if (id) {
       view.setActive(id);

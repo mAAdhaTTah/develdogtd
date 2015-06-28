@@ -1,6 +1,7 @@
-var contextChannel = require('../channels/context');
+import { ItemView } from 'backbone.marionette';
+import contextChannel from '../channels/context';
 
-module.exports = Marionette.ItemView.extend({
+export default ItemView.extend({
   tagName: 'li',
   template: require('../templates/list.context.hbs'),
 

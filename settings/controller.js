@@ -1,11 +1,12 @@
-var SettingsView = require('../views/settings');
-var UserView = require('../views/user');
-var UserModel = require('../models/user/client');
-var ImportView = require('../views/import');
-var ImportingView = require('../views/importing');
-var SourcesCollection = require('../collections/sources');
+import Marionette from 'backbone.marionette';
+import SettingsView from '../views/settings';
+import UserView from '../views/user';
+import UserModel from '../models/user/client';
+import ImportView from '../views/import';
+import ImportingView from '../views/importing';
+import SourcesCollection from '../collections/sources';
 
-module.exports = Marionette.Object.extend({
+export default Marionette.Object.extend({
 
   /**
    * Initialize the Settings view
@@ -29,13 +30,13 @@ module.exports = Marionette.Object.extend({
   /**
    * Show the import view
    */
-  import: function(source) {
-    var view;
+  importing: function(source) {
+    let view;
 
     this.view.setActive('import');
 
     if (source) {
-      var sources = new SourcesCollection(null, {
+      let sources = new SourcesCollection(null, {
         source: source
       });
 

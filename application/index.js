@@ -1,24 +1,25 @@
-require('./shim');
+import './shim';
+import Backbone from 'backbone';
+import AppRouter from './router';
+import { Application } from 'backbone.marionette';
+import ActionCollection from '../collections/action';
+import ProjectCollection from '../collections/project';
+import ContextCollection from '../collections/context';
 
-var AppRouter = require('./router');
-var ActionCollection = require('../collections/action');
-var ProjectCollection = require('../collections/project');
-var ContextCollection = require('../collections/context');
-
-var Application = Marionette.Application.extend({
+let App = Application.extend({
 
   /**
-   * Initialize the Application componenets
+   * Initialize the Application components
    */
   initialize: function() {
-    var router = new AppRouter();
-    var actions = new ActionCollection(ddBoot.actions);
-    var projects = new ProjectCollection(ddBoot.projects);
-    var contexts = new ContextCollection(ddBoot.contexts);
+    let router = new AppRouter();
+    let actions = new ActionCollection(window.ddBoot.actions);
+    let projects = new ProjectCollection(window.ddBoot.projects);
+    let contexts = new ContextCollection(window.ddBoot.contexts);
   }
 });
 
-module.exports = new Application()
+module.exports = new App()
   .on('start', function() {
     Backbone.history.start();
   })

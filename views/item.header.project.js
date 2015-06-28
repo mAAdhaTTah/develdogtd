@@ -1,7 +1,9 @@
-var projectChannel = require('../channels/project');
-var globalChannel = require('../channels/global');
+import { ItemView } from 'backbone.marionette';
+import _ from 'lodash';
+import projectChannel from '../channels/project';
+import globalChannel from '../channels/global';
 
-module.exports = Marionette.ItemView.extend({
+export default ItemView.extend({
 
   /**
    * Whether this view will be removed by a refresh
@@ -58,7 +60,7 @@ module.exports = Marionette.ItemView.extend({
     this.model.save(key, value, {
       error: function(model, response, options) {
         console.log(response);
-        var n = noty({
+        noty({
           text: response,
           animation: {
             open: {height: 'toggle'}, // jQuery animate function property object

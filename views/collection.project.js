@@ -1,8 +1,9 @@
-var HeaderView = require('./item.header.project');
-var actionChannel = require('../channels/action');
-var projectChannel = require('../channels/project');
+import { CompositeView, RegionManager } from 'backbone.marionette';
+import HeaderView from './item.header.project';
+import actionChannel from '../channels/action';
+import projectChannel from '../channels/project';
 
-module.exports = Marionette.CompositeView.extend({
+export default CompositeView.extend({
   childView: require('./item.list.project'),
   childViewContainer: '.projects',
   template: require('../templates/collection.project.hbs'),
@@ -12,7 +13,7 @@ module.exports = Marionette.CompositeView.extend({
   },
 
   onRender: function() {
-    this.regions = new Marionette.RegionManager({
+    this.regions = new RegionManager({
       regions: {
         actions: '.current-project .actions',
         header: '.current-project .header'
@@ -21,9 +22,9 @@ module.exports = Marionette.CompositeView.extend({
   },
 
   setActive: function(id) {
-    var model = projectChannel.request('model:byId', id);
-    var projectHeader = new HeaderView({ model: model });
-    var actionsView = actionChannel.request('view:byProject', model);
+    let model = projectChannel.request('model:byId', id);
+    let projectHeader = new HeaderView({ model: model });
+    let actionsView = actionChannel.request('view:byProject', model);
 
     this.children.findByModel(model).makeActive();
 
@@ -32,7 +33,7 @@ module.exports = Marionette.CompositeView.extend({
   },
 
   showUnassigned: function() {
-    var actionsView = actionChannel.request('view:byProject');
+    let actionsView = actionChannel.request('view:byProject');
     this.regions.get('actions').show(actionsView);
   }
 });

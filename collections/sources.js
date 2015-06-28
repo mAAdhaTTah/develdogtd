@@ -1,4 +1,6 @@
-module.exports = Backbone.Collection.extend({
+import Backbone from 'backbone';
+
+export default Backbone.Collection.extend({
 
   /**
    * Define collection's model

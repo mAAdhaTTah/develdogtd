@@ -1,6 +1,8 @@
-var globalChannel = require('../channels/global');
+import { ItemView } from 'backbone.marionette';
+import _ from 'lodash';
+import globalChannel from '../channels/global';
 
-module.exports = Marionette.ItemView.extend({
+export default ItemView.extend({
 
   /**
    * Whether this view will be removed by a refresh

@@ -1,8 +1,10 @@
-require('../application/shim');
+import { Application } from 'backbone.marionette';
+import Backbone from 'backbone';
+import '../application/shim';
 
-var SettingsRouter = require('./router');
+let SettingsRouter = require('./router');
 
-var Settings = Marionette.Application.extend({
+let Settings = Application.extend({
 
   /**
    * Initialize the settings page
@@ -12,7 +14,7 @@ var Settings = Marionette.Application.extend({
   }
 });
 
-var settings = new Settings();
+let settings = new Settings();
 
 // Start history when our application is ready
 settings.on('start', function() {

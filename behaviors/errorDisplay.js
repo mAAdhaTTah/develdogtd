@@ -1,4 +1,6 @@
-module.exports = Marionette.Behavior.extend({
+import { Behavior } from 'backbone.marionette';
+
+export default Behavior.extend({
 
   /**
    * Handles the error object when a model doesn't validate

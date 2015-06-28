@@ -1,6 +1,9 @@
-var projectChannel = require('../channels/project');
+import { Behavior } from 'backbone.marionette';
+import _ from 'lodash';
+import projectChannel from '../channels/project';
+import 'selectize';
 
-module.exports = Marionette.Behavior.extend({
+export default Behavior.extend({
 
   /**
    * Renders the project input element

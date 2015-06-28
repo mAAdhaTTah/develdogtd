@@ -1,6 +1,7 @@
-var projectChannel = require('../channels/project');
+import { ItemView } from 'backbone.marionette';
+import projectChannel from '../channels/project';
 
-module.exports = Marionette.ItemView.extend({
+export default ItemView.extend({
   tagName: 'li',
   template: require('../templates/list.project.hbs'),
 

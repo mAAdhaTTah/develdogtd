@@ -1,7 +1,10 @@
-var moment = require('moment');
-var time = require('../config').time;
+import { Behavior } from 'backbone.marionette';
+import jQuery from 'jquery';
+import _ from 'lodash';
+import moment from 'moment';
+import config from '../config';
 
-module.exports = Marionette.Behavior.extend({
+export default Behavior.extend({
 
   /**
    * Model event bindings
@@ -11,18 +14,18 @@ module.exports = Marionette.Behavior.extend({
     'change:completed': 'toggleClass'
   },
 
+  events: {
+    '@ui.due change': 'updateDue'
+  },
+
   /**
    * Renders the datetimepicker for the item due date
    */
   onRender: function() {
-    var due;
-
-    this.ui.due.datetimepicker({
-      onChangeDateTime: _.bind(this.updateDue, this)
-    });
+    let due;
 
     if (due = this.view.model.get('due')) {
-      this.ui.due.val(moment(due).format(time.client));
+      this.ui.due.val(moment(due).format(config.time.client));
     }
 
     this.toggleClass();
@@ -54,12 +57,5 @@ module.exports = Marionette.Behavior.extend({
   updateDue: function() {
     this.toggleClass();
     this.view.saveModel('due', moment(this.ui.due.val(), time.client).format());
-  },
-
-  /**
-   * Destroy the datetimepicker object
-   */
-  onDestroy: function() {
-    this.ui.due.datetimepicker('destroy');
   }
 });

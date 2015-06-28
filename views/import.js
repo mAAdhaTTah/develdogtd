@@ -1,4 +1,6 @@
-module.exports = Marionette.ItemView.extend({
+import { ItemView } from 'backbone.marionette';
+
+export default ItemView.extend({
 
   /**
    * Import page class

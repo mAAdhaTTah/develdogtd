@@ -1,4 +1,6 @@
-module.exports = Marionette.ItemView.extend({
+import { ItemView } from 'backbone.marionette';
+
+export default ItemView.extend({
 
   /**
    * Defines container class
@@ -39,8 +41,8 @@ module.exports = Marionette.ItemView.extend({
    * Trigger the importing the project
    */
   importProject: function () {
-    var setImported = _.bind(this.setImported, this);
-    var setNotImported = _.bind(this.setNotImported, this);
+    let setImported = _.bind(this.setImported, this);
+    let setNotImported = _.bind(this.setNotImported, this);
 
     this.model.save()
       .done(function() {

@@ -1,14 +1,15 @@
-var Controller = require('./controller');
+import { AppRouter } from 'backbone.marionette';
+import Controller from './controller';
 
-module.exports = Marionette.AppRouter.extend({
+export default AppRouter.extend({
 
   /**
    * Routes managed by controller
    */
   appRoutes: {
     '': 'user',
-    'import': 'import',
-    'import/:source': 'import'
+    'import': 'importing',
+    'import/:source': 'importing'
   },
 
   /**

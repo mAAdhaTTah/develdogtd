@@ -1,7 +1,10 @@
-var globalChannel = require('../channels/global');
-var actionChannel = require('../channels/action');
+import { CollectionView } from 'backbone.marionette';
+import $ from 'jquery';
+import velocity from 'velocity-animate';
+import globalChannel from '../channels/global';
+import actionChannel from '../channels/action';
 
-module.exports = Marionette.CollectionView.extend({
+export default CollectionView.extend({
 
   /**
    * Child view for the collection
@@ -34,6 +37,6 @@ module.exports = Marionette.CollectionView.extend({
    * @param view
    */
   onAddChild: function(view) {
-    view.$el.velocity('scroll');
+    velocity(view.$el, 'scroll');
   }
 });

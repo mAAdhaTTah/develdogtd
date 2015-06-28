@@ -1,16 +1,18 @@
-module.exports = Marionette.Behavior.extend({
+import { Behavior } from 'backbone.marionette';
+
+export default Behavior.extend({
 
   /**
    * Events hash for this behavior
    */
   events: {
-    'click @ui.delete': 'delete'
+    'click @ui.delete': 'deleteModel'
   },
 
   /**
-   *
+   * Delete the model from the server
    */
-  delete: function() {
+  deleteModel: function() {
     this.view.model.destroy({ wait: true });
   }
 });

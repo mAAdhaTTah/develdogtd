@@ -1,4 +1,6 @@
-module.exports = Marionette.Behavior.extend({
+import { Behavior } from 'backbone.marionette';
+
+export default Behavior.extend({
 
   /**
    * Events hash for this behavior

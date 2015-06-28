@@ -1,4 +1,6 @@
-module.exports = Marionette.Behavior.extend({
+import { Behavior } from 'backbone.marionette';
+
+export default Behavior.extend({
 
   /**
    * Events hash for this behavior
@@ -11,7 +13,7 @@ module.exports = Marionette.Behavior.extend({
    * Sets the proper completed class for the item
    */
   onRender: function() {
-    var completed = this.view.model.get('completed');
+    let completed = this.view.model.get('completed');
 
     this.ui.completed.prop('checked', completed);
 
@@ -34,7 +36,7 @@ module.exports = Marionette.Behavior.extend({
    * Updates the model with the completed status from the field
    */
   updateCompleted: function() {
-    var completed = this.ui.completed.is(':checked');
+    let completed = this.ui.completed.is(':checked');
 
     this.toggleClass(completed);
     this.view.saveModel('completed', completed);

@@ -1,4 +1,6 @@
-module.exports = Backbone.Model.extend({
+import Backbone from 'backbone';
+
+export default Backbone.Model.extend({
   defaults: {
     name: '',
     type: 'project',

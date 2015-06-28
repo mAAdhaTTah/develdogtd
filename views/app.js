@@ -1,8 +1,9 @@
-var globalChannel = require('../channels/global');
-var actionChannel = require('../channels/action');
-var projectChannel = require('../channels/project');
+import { LayoutView } from 'backbone.marionette';
+import globalChannel from '../channels/global';
+import actionChannel from '../channels/action';
+import projectChannel from '../channels/project';
 
-module.exports = Marionette.LayoutView.extend({
+export default LayoutView.extend({
   el: '.app',
   template: false,
   regions: {

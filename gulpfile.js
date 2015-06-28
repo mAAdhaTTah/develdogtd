@@ -87,7 +87,10 @@ var bundler = browserify({
     './settings/index.js'
   ],
   transform: [
-    'hbsfy'
+    'hbsfy',
+    ['babelify',{
+      ignore: ['node_modules']
+    }]
   ]
 })
   .on('error', gutil.log.bind(gutil, 'Browserify Error'))

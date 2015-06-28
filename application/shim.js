@@ -1,10 +1,5 @@
-$ = jQuery = require('jquery');
-_ = require('lodash');
-Backbone = require('backbone');
-require('jquery.cookie');
-require('noty');
-require('selectize');
-require('jquery-datetimepicker');
-Backbone.$ = $ || jQuery;
-Marionette = require('backbone.marionette');
-require('velocity-animate');
+import Backbone from 'backbone';
+import $ from 'jquery';
+Backbone.$ = $;
+import Marionette from 'backbone.marionette';
+import 'babel/polyfill';
