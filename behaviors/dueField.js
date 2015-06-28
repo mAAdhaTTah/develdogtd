@@ -25,7 +25,7 @@ module.exports = Marionette.Behavior.extend({
       this.ui.due.val(moment(due).format(time.client));
     }
 
-    this.toggleClass(this.incompleteAndPastDue());
+    this.toggleClass();
   },
 
   /**
