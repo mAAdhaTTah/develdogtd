@@ -8,5 +8,71 @@ module.exports = Marionette.ItemView.extend({
   /**
    * Template for import page
    */
-  template: require('../templates/source.hbs')
+  template: require('../templates/source.hbs'),
+
+  /**
+   * UI elements for sources
+   */
+  ui: {
+    import: '.import-source'
+  },
+
+  /**
+   * Events for the source template
+   */
+  events: {
+    'click @ui.import': 'importProject'
+  },
+
+  /**
+   * Update the button if the project is imported
+   */
+  onRender: function () {
+    if (this.model.get('imported'))
+    this.setImported();
+     else {
+      this.setNotImported();
+    }
+  },
+
+  /**
+   * Trigger the importing the project
+   */
+  importProject: function () {
+    var setImported = _.bind(this.setImported, this);
+    var setNotImported = _.bind(this.setNotImported, this);
+
+    this.model.save()
+      .done(function() {
+        setImported();
+      })
+      .fail(function(err) {
+        setNotImported();
+        noty({
+          text: err.statusText,
+          animation: {
+            open: {height: 'toggle'},
+            close: {height: 'toggle'},
+            easing: 'swing',
+            speed: 500
+          },
+          type: 'error',
+          timeout: 3000
+        });
+      });
+  },
+
+  setImported: function() {
+    this.ui.import
+      .prop('disabled', true)
+      .addClass('imported')
+      .html('Project Imported');
+  },
+
+  setNotImported: function() {
+    this.ui.import
+      .prop('enabled', true)
+      .removeClass('imported')
+      .html('Import Project');
+  }
 });
