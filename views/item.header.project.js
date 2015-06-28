@@ -2,12 +2,25 @@ var projectChannel = require('../channels/project');
 var globalChannel = require('../channels/global');
 
 module.exports = Marionette.ItemView.extend({
+
+  /**
+   * Whether this view will be removed by a refresh
+   */
   willRemove: false,
 
+  /**
+   * Class name for the project header view
+   */
   className: 'project',
 
+  /**
+   * Template for the project header
+   */
   template: require('../templates/header.project.hbs'),
 
+  /**
+   * Behaviors associated with this view
+   */
   behaviors: {
     CompleteButton: {
       behaviorClass: require('../behaviors/completeButton')
@@ -26,6 +39,9 @@ module.exports = Marionette.ItemView.extend({
     }
   },
 
+  /**
+   * UI hash
+   */
   ui: {
     completed: '.completed',
     context: '.context-id',
@@ -35,26 +51,9 @@ module.exports = Marionette.ItemView.extend({
     notesfield: '.notes'
   },
 
-  maybeDestroy: function(project_id, context_id) {
-    if (this.model.get('completed')) {
-      return this.destroy();
-    }
-
-    if (project_id === this.model.get('project_id')) {
-      return this.destroy();
-    }
-
-    if (context_id === this.model.get('context_id')) {
-      return this.destroy();
-    }
-
-    return false;
-  },
-
-  onBeforeDestroy: function() {
-    this.$el.fadeOut();
-  },
-
+  /**
+   * Saves the model without overloading the server
+   */
   saveModel: _.debounce(function(key, value) {
     this.model.save(key, value, {
       error: function(model, response, options) {
