@@ -7,7 +7,8 @@ export default AppRouter.extend({
    * Routes managed by controller
    */
   appRoutes: {
-    '': 'redirectTo',
+    // @todo remove this and set up a real "home"
+    '': 'inbox',
     'inbox': 'inbox',
     'projects': 'projects',
     'projects/:project_id': 'projects',
@@ -19,6 +20,6 @@ export default AppRouter.extend({
    * Initializes the controller
    */
   initialize: function() {
-    this.controller = new Controller({ router: this });
+    this.controller = new Controller();
   }
 });

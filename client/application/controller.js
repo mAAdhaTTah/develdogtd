@@ -1,5 +1,10 @@
-import AppView from './view';
 import Marionette from 'backbone.marionette';
+import io from 'socket.io-client';
+import AppView from './view';
+import ActionCollection from '../collections/action';
+import ProjectCollection from '../collections/project';
+import ContextCollection from '../collections/context';
+import UserModel from '../models/user';
 import actionChannel from '../channels/action';
 import projectChannel from '../channels/project';
 import contextChannel from '../channels/context';
@@ -8,12 +13,12 @@ export default Marionette.Object.extend({
 
   initialize: function() {
     this.view = new AppView();
-    this.router = this.options.router;
-  },
 
-  redirectTo: function() {
-    // @todo remove this and set up a real "home"
-    this.goto('inbox');
+    this.actionCollection = new ActionCollection(window.ddBoot.actions);
+    this.projectCollection = new ProjectCollection(window.ddBoot.projects);
+    this.contextsCollection  = new ContextCollection(window.ddBoot.contexts);
+    this.userModel = new UserModel(window.ddBoot.user);
+
   },
 
   inbox: function() {
@@ -48,10 +53,5 @@ export default Marionette.Object.extend({
     } else {
       view.showUnassigned();
     }
-  },
-
-  goto: function(route) {
-    this.router.navigate(route);
-    this[route]();
   }
 });

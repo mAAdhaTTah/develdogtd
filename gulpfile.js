@@ -83,14 +83,12 @@ gulp.task('watchers', ['nodemon'], function() {
 
 var bundler = browserify({
   entries: [
-    './client/application/index.js',
+    './client/index.js',
     './client/settings/index.js'
   ],
   transform: [
     'hbsfy',
-    ['babelify',{
-      ignore: ['node_modules']
-    }]
+    'babelify'
   ]
 })
   .on('error', gutil.log.bind(gutil, 'Browserify Error'))

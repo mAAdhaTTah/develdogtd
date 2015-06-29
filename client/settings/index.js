@@ -1,6 +1,6 @@
 import { Application } from 'backbone.marionette';
 import Backbone from 'backbone';
-import '../application/shim';
+import '../shim';
 
 let SettingsRouter = require('./router');
 
