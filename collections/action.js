@@ -4,9 +4,20 @@ import actionChannel from '../channels/action';
 import projectChannel from '../channels/project';
 
 export default Backbone.Collection.extend({
+
+  /**
+   * Model associated with the collection
+   */
   model: require('../models/action'),
+
+  /**
+   * API URL for the collection
+   */
   url: '/api/v1/actions',
 
+  /**
+   * Adds the responses to the action channel
+   */
   initialize: function() {
     actionChannel.reply('model:byId', this.get, this);
     actionChannel.reply('view:inbox', this.viewInbox, this);
@@ -16,11 +27,22 @@ export default Backbone.Collection.extend({
     actionChannel.comply('add', this.addAction, this);
   },
 
+  /**
+   * Retrieves a CollectionView for the inbox
+   *
+   * @returns {CollectionView}
+   */
   viewInbox: function() {
     // @todo filter by project + context
     return this.newView();
   },
 
+  /**
+   * Retrieves a CollectionView for a given project
+   *
+   * @param model
+   * @returns {CollectionView}
+   */
   viewByProject: function(model) {
     let view = this.newView();
 
@@ -39,6 +61,12 @@ export default Backbone.Collection.extend({
     return view;
   },
 
+  /**
+   * Retrieves a CollectionView for a given context
+   *
+   * @param model
+   * @returns {CollectionView}
+   */
   viewByContext: function(model) {
     let view = this.newView();
 
@@ -57,6 +85,11 @@ export default Backbone.Collection.extend({
     return view;
   },
 
+  /**
+   * Create a new view with this collection already included
+   *
+   * @returns {CollectionView}
+   */
   newView: function() {
     return new CollectionView({
       collection: this
@@ -80,8 +113,7 @@ export default Backbone.Collection.extend({
     // we're assuming all our routes are pural/end in 's'
     // controller or app state?
     if (routeParts.length > 1) {
-      let base = routeParts[0];
-      let id = routeParts[1];
+      let [base, id] = routeParts;
 
       action[base.slice(0, -1) + '_id'] = parseInt(id);
 
