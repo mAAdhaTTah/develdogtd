@@ -40,10 +40,10 @@ gulp.task('nodemon', function(cb) {
   var called = false;
   return nodemon({
     // nodemon our expressjs server
-    script: './bin/www',
+    script: './server/bin/www',
 
     // watch core server file(s) that require server restart on change
-    watch: ['server.js', '**/*.js']
+    watch: ['server/**/*.js']
   })
     .on('start', function onStart() {
       // ensure start only got called once
@@ -83,8 +83,8 @@ gulp.task('watchers', ['nodemon'], function() {
 
 var bundler = browserify({
   entries: [
-    './application/index.js',
-    './settings/index.js'
+    './client/application/index.js',
+    './client/settings/index.js'
   ],
   transform: [
     'hbsfy',
@@ -104,8 +104,8 @@ function bundle() {
   return bundler
     .plugin(factor, {
       outputs: [
-        'public/application.js',
-        'public/settings.js'
+        './public/application.js',
+        './public/settings.js'
       ]
     })
     .bundle()
