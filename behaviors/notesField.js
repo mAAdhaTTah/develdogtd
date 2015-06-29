@@ -21,7 +21,7 @@ export default Behavior.extend({
    * Toggles display of the notes field
    */
   toggleNotes: function() {
-    this.ui.notesfield.slideToggle();
+    this.ui.notesfield.slideToggle().focus();
   },
 
   /**
