@@ -22,7 +22,7 @@ export default Backbone.Collection.extend({
   },
 
   viewByProject: function(model) {
-    var view = this.newView();
+    let view = this.newView();
 
     view.filter = function(child, index, collection) {
       if (child.get('completed')) {
@@ -40,7 +40,7 @@ export default Backbone.Collection.extend({
   },
 
   viewByContext: function(model) {
-    var view = this.newView();
+    let view = this.newView();
 
     view.filter = function(child, index, collection) {
       if (child.get('completed')) {
@@ -68,8 +68,8 @@ export default Backbone.Collection.extend({
    * and adds it to the collection
    */
   addAction: function() {
-    var action = {};
-    var routeParts = Backbone.history.getFragment().split('/');
+    let action = {};
+    let routeParts = Backbone.history.getFragment().split('/');
 
     // if the route hash has a base + an id
     // there we're going to parse the base
@@ -80,14 +80,14 @@ export default Backbone.Collection.extend({
     // we're assuming all our routes are pural/end in 's'
     // controller or app state?
     if (routeParts.length > 1) {
-      var base = routeParts[0];
-      var id = routeParts[1];
+      let base = routeParts[0];
+      let id = routeParts[1];
 
       action[base.slice(0, -1) + '_id'] = parseInt(id);
 
       if (action.project_id) {
-        var context_id;
-        var project = projectChannel.request('model:byId', action.project_id);
+        let context_id;
+        let project = projectChannel.request('model:byId', action.project_id);
 
         if (context_id = project.get('context_id')) {
           action.context_id = context_id;
