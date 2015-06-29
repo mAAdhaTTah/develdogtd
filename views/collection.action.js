@@ -38,5 +38,6 @@ export default CollectionView.extend({
    */
   onAddChild: function(view) {
     velocity(view.$el, 'scroll');
+    view.ui.name.focus();
   }
 });
