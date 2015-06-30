@@ -1,6 +1,7 @@
 var router = require('express').Router();
 var Task = require('../models/task');
 var Context = require('../models/context');
+var User = require('../models/user');
 var Promise = require('bluebird');
 
 /**
@@ -29,21 +30,28 @@ router.get('/', function(req, res) {
     .where({ user_id: req.user})
     .query('orderBy', 'created_at', 'ASC')
     .fetchAll();
+  var user = User
+    .where({ id: req.user})
+    .fetch();
 
-  Promise.all([tasks, contexts]).then(function(results) {
-    var tasks = results[0];
-    var contexts = results[1].toJSON();
+  Promise
+    .all([tasks, contexts, user])
+    .then(function(results) {
+      var tasks = results[0];
+      var contexts = results[1].toJSON();
+      var user = results[2].toJSON();
 
-    var actions = tasks.where({ type: 'action' });
-    var projects = tasks.where({ type: 'project' });
+      var actions = tasks.where({ type: 'action' });
+      var projects = tasks.where({ type: 'project' });
 
-    res.render('app', {
-      title: 'App - DeveldoGTD',
-      actions: JSON.stringify(actions),
-      projects: JSON.stringify(projects),
-      contexts: JSON.stringify(contexts)
+      res.render('app', {
+        title: 'App - DeveldoGTD',
+        actions: JSON.stringify(actions),
+        projects: JSON.stringify(projects),
+        contexts: JSON.stringify(contexts),
+        user: JSON.stringify(user)
+      });
     });
-  });
 });
 
 module.exports = router;

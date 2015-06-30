@@ -19,6 +19,22 @@ export default Marionette.Object.extend({
     this.contextsCollection  = new ContextCollection(window.ddBoot.contexts);
     this.userModel = new UserModel(window.ddBoot.user);
 
+    this.setUpSocket();
+  },
+
+  /**
+   * Sets up the socket connection
+   */
+  setUpSocket: function() {
+    let socket = io();
+
+    socket.on('connect', function() {
+      console.log('Connected');
+    });
+
+    socket.on('connect_error', function() {
+      console.log('Failed');
+    });
   },
 
   inbox: function() {

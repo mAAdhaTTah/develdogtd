@@ -40,7 +40,7 @@ gulp.task('nodemon', function(cb) {
   var called = false;
   return nodemon({
     // nodemon our expressjs server
-    script: './server/bin/www',
+    script: './server',
 
     // watch core server file(s) that require server restart on change
     watch: ['server/**/*.js']
