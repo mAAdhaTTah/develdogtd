@@ -1,7 +1,7 @@
 import Marionette from 'backbone.marionette';
 import io from 'socket.io-client';
 import AppView from './view';
-import ActionCollection from '../collections/action';
+import ActionCollection from '../actions/collection';
 import ProjectCollection from '../collections/project';
 import ContextCollection from '../collections/context';
 import UserModel from '../models/user';
@@ -14,16 +14,12 @@ export default Marionette.Object.extend({
   initialize: function() {
     this.view = new AppView();
 
-    this.actionCollection = new ActionCollection(window.ddBoot.actions);
-    this.projectCollection = new ProjectCollection(window.ddBoot.projects);
-    this.contextsCollection  = new ContextCollection(window.ddBoot.contexts);
-    this.userModel = new UserModel(window.ddBoot.user);
-
     this.setUpSocket();
+    this.setUpCollections();
   },
 
   /**
-   * Sets up the socket connection
+   * Establishes up the socket connection
    */
   setUpSocket: function() {
     let socket = io();
@@ -37,12 +33,30 @@ export default Marionette.Object.extend({
     });
   },
 
+  /**
+   * Registers the collections & models used in the application
+   */
+  setUpCollections() {
+    this.actionCollection = new ActionCollection(window.ddBoot.actions);
+    this.projectCollection = new ProjectCollection(window.ddBoot.projects);
+    this.contextsCollection  = new ContextCollection(window.ddBoot.contexts);
+    this.userModel = new UserModel(window.ddBoot.user);
+  },
+
+  /**
+   * Displays in the inbox view
+   */
   inbox: function() {
     this.view.setActive('inbox');
 
     this.view.main.show(actionChannel.request('view:inbox'));
   },
 
+  /**
+   * Displays the project view for a given project
+   *
+   * @param project_id
+   */
   projects: function(project_id) {
     this.view.setActive('projects');
 
@@ -57,6 +71,11 @@ export default Marionette.Object.extend({
     }
   },
 
+  /**
+   * Displays the context view for a given context
+   *
+   * @param context_id
+   */
   contexts: function(context_id) {
     this.view.setActive('contexts');
 

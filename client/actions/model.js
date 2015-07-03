@@ -1,7 +1,11 @@
-import Backbone from 'backbone';
+import { Model } from 'backbone';
 import validation from '../../validation';
 
-export default Backbone.Model.extend({
+export default Model.extend({
+
+  /**
+   * Default model attributes for an action
+   */
   defaults: {
     name: '',
     type: 'action',
@@ -10,7 +14,13 @@ export default Backbone.Model.extend({
     context_id: null
   },
 
-  validate: function (atts, opts) {
+  /**
+   * Validates the model's attributes
+   *
+   * @param atts
+   * @returns {*}
+   */
+  validate: function (atts) {
     let result = validation.task.validateSync(atts);
 
     if(result[0]) {

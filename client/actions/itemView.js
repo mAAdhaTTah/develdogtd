@@ -1,6 +1,7 @@
 import { ItemView } from 'backbone.marionette';
 import _ from 'lodash';
 import globalChannel from '../channels/global';
+import template from './template.hbs';
 
 export default ItemView.extend({
 
@@ -17,7 +18,7 @@ export default ItemView.extend({
   /**
    * Template for the individual actions
    */
-  template: require('../templates/action.hbs'),
+  template,
 
   /**
    * Behaviors associated with this view

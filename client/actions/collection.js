@@ -1,14 +1,15 @@
-import Backbone from 'backbone';
-import CollectionView from '../views/collection.action';
+import { Collection} from 'backbone';
+import model from './model';
+import CollectionView from './collectionView';
 import actionChannel from '../channels/action';
 import projectChannel from '../channels/project';
 
-export default Backbone.Collection.extend({
+export default Collection.extend({
 
   /**
    * Model associated with the collection
    */
-  model: require('../models/action'),
+  model,
 
   /**
    * API URL for the collection

@@ -3,13 +3,14 @@ import $ from 'jquery';
 import velocity from 'velocity-animate';
 import globalChannel from '../channels/global';
 import actionChannel from '../channels/action';
+import childView from './itemView';
 
 export default CollectionView.extend({
 
   /**
    * Child view for the collection
    */
-  childView: require('./item.action'),
+  childView,
 
   /**
    * Class for the collection container
