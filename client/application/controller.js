@@ -1,5 +1,6 @@
 import Marionette from 'backbone.marionette';
 import io from 'socket.io-client';
+import _ from 'lodash';
 import AppView from './view';
 import ActionCollection from '../actions/collection';
 import ProjectCollection from '../collections/project';
@@ -11,32 +12,35 @@ import contextChannel from '../channels/context';
 
 export default Marionette.Object.extend({
 
+  /**
+   * Initialize the socket and collections
+   */
   initialize: function() {
     this.view = new AppView();
 
-    this.setUpSocket();
-    this.setUpCollections();
-  },
-
-  /**
-   * Establishes up the socket connection
-   */
-  setUpSocket: function() {
     let socket = io();
+    let dataStore = {
+      projects: new ProjectCollection(),
+      contexts: new ContextCollection(),
+      actions: new ActionCollection(),
+      user: new UserModel()
+    };
 
     socket.on('connect', function() {
-      console.log('Connected');
+      socket.emit('all:reconcile');
     });
 
     socket.on('connect_error', function() {
-      console.log('Failed');
+      // @todo send error
     });
-  },
 
-  /**
-   * Registers the collections & models used in the application
-   */
-  setUpCollections() {
+    socket.on('all:reconciled', function(data) {
+      _.forOwn(data, function(val, key) {
+        if (dataStore[key]) {
+          dataStore[key].set(val);
+        }
+      });
+    });
   },
 
   /**

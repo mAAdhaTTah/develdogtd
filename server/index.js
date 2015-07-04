@@ -76,10 +76,37 @@ server.on('listening', function() {
   debug('Listening on ' + bind);
 });
 
+/**
+ * Create websocket
+ */
 var io = require('socket.io')(server);
-var ios = require('socket.io-express-session');
+var pio = require('passport.socketio');
 
-io.use(ios(session));
-io.on('connection', function() {
-  debug('Socket Connection');
-});
+/**
+ * Register socket.io middleware
+ * @todo move this authorize function to middleware
+ */
+io.use(pio.authorize({
+  cookieParser: require('cookie-parser'),
+  key: 'connect.sid',
+  secret: config.sessionSecret,
+  store: session.store,
+  success: function(data, next) {
+    next();
+  },
+  fail: function(data, message, error, next) {
+    if (error) {
+      next(new Error(message));
+    }
+  }
+}));
+io.use(require('./middleware/setup'));
+
+/**
+ * Event listener for websocket "connection" event
+ */
+if (config.debug) {
+  io.on('connection', function(socket) {
+    debug('Socket Connection from user id ' + socket.request.user);
+  });
+}
