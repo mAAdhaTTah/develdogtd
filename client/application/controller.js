@@ -37,10 +37,6 @@ export default Marionette.Object.extend({
    * Registers the collections & models used in the application
    */
   setUpCollections() {
-    this.actionCollection = new ActionCollection(window.ddBoot.actions);
-    this.projectCollection = new ProjectCollection(window.ddBoot.projects);
-    this.contextsCollection  = new ContextCollection(window.ddBoot.contexts);
-    this.userModel = new UserModel(window.ddBoot.user);
   },
 
   /**

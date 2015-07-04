@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 /**
  * Register routes
  */
-app.use('/', require('./routes'));
+app.use('/', require('./routes/http'));
 
 /**
  * Create HTTP server.
@@ -40,7 +40,6 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(app.get('port'));
 
 /**

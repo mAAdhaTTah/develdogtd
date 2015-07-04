@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../models/user');
+var User = require('../../models/user');
 var _ = require('lodash');
 var Promise = require('bluebird');
 
