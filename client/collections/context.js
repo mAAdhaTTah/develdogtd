@@ -1,11 +1,23 @@
-import Backbone from 'backbone';
-var CollectionView = require('../views/collection.context');
-var contextChannel = require('../channels/context');
+import { Collection } from 'backbone';
+import CollectionView from '../views/collection.context';
+import contextChannel from '../channels/context';
+import model from '../models/context';
 
-export default Backbone.Collection.extend({
-  model: require('../models/context'),
-  url: '/api/v1/contexts',
+export default Collection.extend({
 
+  /**
+   * Default model for the collection`
+   */
+  model,
+
+  /**
+   * Websocket namespace for the collection
+   */
+  url: 'contexts',
+
+  /**
+   * Set up all the event listeners/bindings
+   */
   initialize: function() {
     contextChannel.reply('list', this.listContexts, this);
     contextChannel.reply('view:contexts', this.getView, this);
@@ -17,10 +29,19 @@ export default Backbone.Collection.extend({
     });
   },
 
+  /**
+   * Set up all the event listeners/bindings
+   */
   listContexts: function() {
     return this.toJSON();
   },
 
+  /**
+   * Get view for the collection
+   *
+   * @param id
+   * @returns {CollectionView}
+   */
   getView: function(id) {
     let view = new CollectionView({ collection: this });
 
@@ -31,6 +52,12 @@ export default Backbone.Collection.extend({
     return view;
   },
 
+  /**
+   * Add a new context to the collection
+   * Adds a blank context if none is provided
+   *
+   * @param context
+   */
   addContext: function(context) {
     if(context) {
       this.add(context);

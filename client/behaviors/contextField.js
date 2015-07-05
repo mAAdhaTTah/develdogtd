@@ -1,8 +1,7 @@
 import { Behavior } from 'backbone.marionette';
-import $ from 'jquery';
 import _ from 'lodash';
-import contextChannel from '../channels/context';
 import 'selectize';
+import contextChannel from '../channels/context';
 
 export default Behavior.extend({
 
@@ -17,18 +16,9 @@ export default Behavior.extend({
       searchField: ['name'],
       sortField: 'name',
       create: function(input, cb) {
-        $.ajax({
-          url: '/api/v1/contexts',
-          type: 'POST',
-          data: {
-            name: input
-          }
-        }).done(function(response) {
-          contextChannel.command('add', response);
-          cb(response);
-        }).fail(function() {
-          cb();
-        });
+        this.stopListening(contextChannel);
+        cb(contextChannel.request('create', { name: input }));
+        this.keepOptionsSynced();
       },
 
       maxItems: 1,
@@ -37,7 +27,12 @@ export default Behavior.extend({
       persist: true,
       closeAfterSelect: true
     });
+  },
 
+  /**
+   * Listen for new context and add them to the dropdown
+   */
+  keepOptionsSynced: function() {
     this.listenTo(contextChannel, 'added', function(context) {
       this.ui.context[0].selectize.addOption(context.toJSON());
     });

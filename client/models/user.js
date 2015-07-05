@@ -1,5 +1,9 @@
-import Backbone from 'backbone';
+import { Model } from 'backbone';
 
-export default Backbone.Model.extend({
+export default Model.extend({
 
+  /**
+   * Websocket namespace for the model
+   */
+  url: 'user'
 });

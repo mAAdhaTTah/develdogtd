@@ -1,4 +1,6 @@
 import { Behavior } from 'backbone.marionette';
+import _ from 'lodash';
+import noty from 'noty';
 
 export default Behavior.extend({
 
@@ -12,6 +14,7 @@ export default Behavior.extend({
   /**
    * Displays the error messages from the error object
    * to the user in a noty notification
+   *
    * @param err
    */
   handleErrors: function(err) {

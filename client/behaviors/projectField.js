@@ -1,7 +1,7 @@
 import { Behavior } from 'backbone.marionette';
 import _ from 'lodash';
-import projectChannel from '../channels/project';
 import 'selectize';
+import projectChannel from '../channels/project';
 
 export default Behavior.extend({
 
@@ -15,21 +15,11 @@ export default Behavior.extend({
       labelField: 'name',
       searchField: ['name'],
       sortField: 'name',
-      create: function(input, cb) {
-        $.ajax({
-          url: '/api/v1/projects',
-          type: 'POST',
-          data: {
-            name: input
-          }
-        }).done(function(response) {
-          projectChannel.command('add', response);
-          cb(response);
-        }).fail(function() {
-          cb();
-        });
+      create: (input, cb) => {
+        this.stopListening(projectChannel);
+        cb(projectChannel.request('create', { name: input }));
+        this.keepOptionsSynced();
       },
-
       maxItems: 1,
       item: [this.view.model.get('project_id')],
       options: projectChannel.request('list'),
@@ -37,6 +27,13 @@ export default Behavior.extend({
       closeAfterSelect: true
     });
 
+    this.keepOptionsSynced();
+  },
+
+  /**
+   * Listen for new projects and add them to the dropdown
+   */
+  keepOptionsSynced: function() {
     this.listenTo(projectChannel, 'added', function(project) {
       this.ui.project[0].selectize.addOption(project.toJSON());
     });

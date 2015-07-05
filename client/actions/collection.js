@@ -1,4 +1,4 @@
-import { Collection} from 'backbone';
+import { Collection, history } from 'backbone';
 import model from './model';
 import CollectionView from './collectionView';
 import actionChannel from '../channels/action';
@@ -12,9 +12,9 @@ export default Collection.extend({
   model,
 
   /**
-   * API URL for the collection
+   * Websocket namespace for the collection
    */
-  url: '/api/v1/actions',
+  url: 'actions',
 
   /**
    * Adds the responses to the action channel
@@ -103,7 +103,7 @@ export default Collection.extend({
    */
   addAction: function() {
     let action = {};
-    let routeParts = Backbone.history.getFragment().split('/');
+    let routeParts = history.getFragment().split('/');
 
     // if the route hash has a base + an id
     // there we're going to parse the base
