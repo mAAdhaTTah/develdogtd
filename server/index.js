@@ -101,6 +101,10 @@ io.use(pio.authorize({
   }
 }));
 io.use(require('./middleware/setup'));
+io.use(require('./routes/socket/user'));
+io.use(require('./routes/socket/actions'));
+io.use(require('./routes/socket/projects'));
+io.use(require('./routes/socket/contexts'));
 
 /**
  * Event listener for websocket "connection" event
