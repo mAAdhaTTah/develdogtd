@@ -2,7 +2,7 @@ var _ = require('lodash');
 var debug = require('debug')('develdogtd:controller:actions');
 
 module.exports = function(socket) {
-  var actions = socket.data.actions;
+  var actions = socket.request.user.related('actions');
   // @todo maybe move to model itself?
   var whitelist = ['parent_id', 'project_id', 'context_id', 'name', 'notes', 'due', 'completed', 'completedAt'];
 
@@ -17,10 +17,10 @@ module.exports = function(socket) {
       var event = 'actions:returned';
 
       if (!data.id) {
-        return socket.emit(event, null, socket.data.actions.toJSON());
+        return socket.emit(event, null, actions.toJSON());
       }
 
-      var action = socket.data.actions.get(data.id);
+      var action = actions.get(data.id);
 
       if (!action) {
         return socket.emit(event, { message: 'No action with provided ID' }, null);
@@ -40,7 +40,7 @@ module.exports = function(socket) {
       data = _.pick(data, whitelist);
       data.type = 'action';
 
-      socket.data.actions
+      actions
         .create(data)
         .then(function(action) {
           debug('Action created');
@@ -66,7 +66,7 @@ module.exports = function(socket) {
         return socket.emit(event, { message: 'No ID provided to action:update' }, null);
       }
 
-      socket.data.actions
+      actions
         .get(data.id)
         .save(data)
         // @todo we also have to check/update the links
@@ -94,7 +94,7 @@ module.exports = function(socket) {
         return socket.emit(event, new Error('No ID provided to action:update'));
       }
 
-      socket.data.actions
+      actions
         .get(data.id)
         .save(data, { patch: true })
         // @todo we also have to check/update the links
@@ -122,7 +122,7 @@ module.exports = function(socket) {
         return socket.emit(event, new Error('No ID provided to action:update'));
       }
 
-      socket.data.actions
+      actions
         .get(data.id)
         .destroy()
         // @todo we also have to check/update the links

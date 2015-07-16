@@ -2,7 +2,7 @@ var _ = require('lodash');
 var debug = require('debug')('develdogtd:controller:contexts');
 
 module.exports = function(socket) {
-  var contexts = socket.data.contexts;
+  var contexts = socket.request.user.related('contexts');
   // @todo maybe move to model itself?
   var whitelist = ['parent_id', 'context_id', 'name', 'notes', 'due', 'completed', 'completedAt'];
 
@@ -17,10 +17,10 @@ module.exports = function(socket) {
       var event = 'contexts:returned';
 
       if (!data.id) {
-        return socket.emit(event, null, socket.data.contexts.toJSON());
+        return socket.emit(event, null, scontexts.toJSON());
       }
 
-      var context = socket.data.contexts.get(data.id);
+      var context = scontexts.get(data.id);
 
       if (!context) {
         return socket.emit(event, { messge: 'No context with provided ID' }, null);
@@ -39,7 +39,7 @@ module.exports = function(socket) {
 
       data = _.pick(data, whitelist);
 
-      socket.data.contexts
+      contexts
         .create(data)
         .then(function(context) {
           debug('Context created');
@@ -65,7 +65,7 @@ module.exports = function(socket) {
         return socket.emit(event, {message: 'No ID provided to context:update' }, null);
       }
 
-      socket.data.contexts
+      contexts
         .get(data.id)
         .save(data)
         // @todo we also have to check/update the links
@@ -93,7 +93,7 @@ module.exports = function(socket) {
         return socket.emit(event, { message: 'No ID provided to context:update' }, null);
       }
 
-      socket.data.contexts
+      contexts
         .get(data.id)
         .save(data, { patch: true })
         // @todo we also have to check/update the links
@@ -121,7 +121,7 @@ module.exports = function(socket) {
         return socket.emit(event, { message: 'No ID provided to context:update' }, null);
       }
 
-      socket.data.contexts
+      contexts
         .get(data.id)
         .destroy()
         // @todo we also have to check/update the links

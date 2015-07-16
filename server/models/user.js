@@ -22,6 +22,7 @@ module.exports = bookshelf.model('User', {
 
   /**
    * User can have many authorizations
+   *
    * @returns {*}
    */
   authorizations: function() {
@@ -29,11 +30,21 @@ module.exports = bookshelf.model('User', {
   },
 
   /**
-   * User can have many tasks
+   * User can have many tasks of type 'action'
+   *
    * @returns {*}
    */
-  tasks: function() {
-    return this.hasMany('Task');
+  actions: function() {
+    return this.hasMany('Task').query({ where: { type: 'action' }});
+  },
+
+  /**
+   * User can have many tasks of type 'project'
+   *
+   * @returns {*}
+   */
+  projects: function() {
+    return this.hasMany('Task').query({ where: { type: 'project' }})
   },
 
   /**

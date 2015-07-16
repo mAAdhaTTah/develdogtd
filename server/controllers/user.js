@@ -1,7 +1,7 @@
 var debug = require('debug')('develdogtd:controller:user');
 
 module.exports = function(socket) {
-  var user = socket.data.user;
+  var user = socket.request.user;
 
   var api = {
 
@@ -20,7 +20,7 @@ module.exports = function(socket) {
      */
     'update': function(data) {
       debug('Updating user');
-      socket.data.user
+      user
         .save(data)
         .then(function(user) {
           debug('User updated');
@@ -34,7 +34,7 @@ module.exports = function(socket) {
      */
     'patch': function(data) {
       debug('Patching user');
-      socket.data.user
+      user
         .save(data, { patch: true })
         .then(function(user) {
           debug('User patched');

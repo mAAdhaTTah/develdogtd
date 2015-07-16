@@ -2,7 +2,7 @@ var _ = require('lodash');
 var debug = require('debug')('develdogtd:controller:projects');
 
 module.exports = function(socket) {
-  var projects = socket.data.projects;
+  var projects = socket.request.user.related('projects');
   // @todo maybe move to model itself?
   var whitelist = ['name', 'parent_id'];
 
@@ -17,10 +17,10 @@ module.exports = function(socket) {
       var event = 'projects:returned';
 
       if (!data.id) {
-        return socket.emit(event, null, socket.data.projects.toJSON());
+        return socket.emit(event, null, projects.toJSON());
       }
 
-      var project = socket.data.projects.get(data.id);
+      var project = projects.get(data.id);
 
       if (!project) {
         return socket.emit(event, { message: 'No project with provided ID' }, null);
@@ -40,7 +40,7 @@ module.exports = function(socket) {
       data = _.pick(data, whitelist);
       data.type = 'project';
 
-      socket.data.projects
+      projects
         .create(data)
         .then(function(project) {
           debug('Project created');
@@ -66,7 +66,7 @@ module.exports = function(socket) {
         return socket.emit(event, { message: 'No ID provided to project:update' }, null);
       }
 
-      socket.data.projects
+      projects
         .get(data.id)
         .save(data)
         // @todo we also have to check/update the links
@@ -94,7 +94,7 @@ module.exports = function(socket) {
         return socket.emit(event, { message: 'No ID provided to project:update' }, null);
       }
 
-      socket.data.projects
+      projects
         .get(data.id)
         .save(data, { patch: true })
         // @todo we also have to check/update the links
@@ -122,7 +122,7 @@ module.exports = function(socket) {
         return socket.emit(event, { message: 'No ID provided to project:update' }, null);
       }
 
-      socket.data.projects
+      projects
         .get(data.id)
         .destroy()
         // @todo we also have to check/update the links

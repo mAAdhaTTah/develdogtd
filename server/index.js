@@ -109,8 +109,6 @@ io.use(require('./routes/socket/contexts'));
 /**
  * Event listener for websocket "connection" event
  */
-if (config.debug) {
-  io.on('connection', function(socket) {
-    debug('Socket Connection from user id ' + socket.request.user);
-  });
-}
+io.on('connection', function(socket) {
+  debug('Socket Connection from user ' + socket.request.user.get('display'));
+});
